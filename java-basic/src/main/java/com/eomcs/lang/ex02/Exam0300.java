@@ -4,7 +4,7 @@ public class Exam0300{
         System.out.println("애노테이션");
     }
     @Override
-    public String toString2(){
+    public String toString(){
         return "Exam12";
     }
 }
