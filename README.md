@@ -37,3 +37,14 @@
         -환경변수 PATH에 등록해서 편하다.
     -node.js 설치
     -JDK 설치
+    
+
+
+##6일차 
+-리터럴 : 값을 표현한 것(정수, 부동소수점, 논리, 문자, 문자열)
+
+-콘솔 출력
+문자열 출력 : System.out.print(출력할 값, 표현식)
+값 출력 후 줄 바꿈 : System.out.println()
+출력형식에 맞춰 값 출력 : System.out.printf("출력혈식", 값, 값, ...)
+*print, println, printf가 메소드이다.
