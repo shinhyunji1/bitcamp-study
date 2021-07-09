@@ -68,15 +68,6 @@
 높은 해상도 
     
 
--git 올라가지 않을 때
-
-github 사이트에서 설정에 이메일과
-명령프롬프트에서 git config --list
-같은지 확인한다.
-
-다르다면
-명령프롬프트에 git config --global user.email "내 이메일 주소"
-치고 다시 git add commit push를 한다.
 
 
 ##7월 9일 금요일
@@ -112,3 +103,4 @@ double d;
 boolean bool;
 char c;
 그외 주소를 담는 변수인 레퍼런스이다.(배열 레퍼런스 포함)
+
