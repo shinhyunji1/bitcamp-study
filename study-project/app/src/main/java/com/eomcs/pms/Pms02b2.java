@@ -20,7 +20,8 @@ public class Pms02b2 {
     String blank = Scannerkeyboard.nextLine();
 
     System.out.print("시작일? ");
-    Date startDate = Date.valueOf(Scannerkeyboard.nextLine());
+    java.sql.Date startDate = java.sql.Date.valueOf(Scannerkeyboard.nextLine());
+    //
 
     System.out.print("종료일? ");
     Date endDate = Date.valueOf(Scannerkeyboard.nextLine());

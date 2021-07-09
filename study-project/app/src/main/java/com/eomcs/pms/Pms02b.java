@@ -10,6 +10,13 @@ public class Pms02b {
     //설계도를 만들어보면 new java.util.Scanner(System.in);
     //가로 안에 무엇을 주냐에 따라 무엇을 스캔할지 정해진다.
     //리모컨을 만들자 : java.util.Scanner keyboardScanner
+
+    //키보드 System.in이라는 것
+    //설계도를 만들어보면 new java.util.Scanner(System.in);
+    //가로 안에 무엇을 주냐에 따라 무엇을 스캔할지 정해진다.
+    //리모컨을 만들자 : java.util.Scanner keyboardScanner
+    //너무 기니깐 import를 주자 (import java.util.Scanner)
+    //Scanner keyboardScanner = new Scanner(System.in);
     System.out.println("[회원]");
 
     System.out.print("번호? ");

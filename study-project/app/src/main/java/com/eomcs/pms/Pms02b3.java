@@ -23,7 +23,6 @@ public class Pms02b3 {
     Date endDate = Date.valueOf(Scannerkeyboard.nextLine());
 
 
-
     System.out.print("상태? \n0:신규 \n1:진행중 \n2:완료 \n>");
     int ing = Scannerkeyboard.nextInt();
     Scannerkeyboard.nextLine();

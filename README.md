@@ -77,3 +77,38 @@ github 사이트에서 설정에 이메일과
 다르다면
 명령프롬프트에 git config --global user.email "내 이메일 주소"
 치고 다시 git add commit push를 한다.
+
+
+##7월 9일 금요일
+
+*배열
+배열이란 같은 종류와 크기를 가진 메모리를 여러개 선언하는 벙법(date type)
+
+배열을 쓰는 방법
+메모리준비명령 data type [개수]
+= new int[3];
+
+변수를 가리지는 번호:index
+     0       1       2
+   [____]  [____]  [____]
+    int     int     int
+정수값을 담을 수 있는 4바이트 크기의 메모리
+
+*배열 변수 접근
+int[] arr;
+arr = new int[5];
+
+
+*배열레퍼런스와 인스턴스
+int[] arr = new int[3];
+
+*자바의 변수 종류
+byte b;
+short s;
+int i;
+long l;
+float f;
+double d;
+boolean bool;
+char c;
+그외 주소를 담는 변수인 레퍼런스이다.(배열 레퍼런스 포함)
