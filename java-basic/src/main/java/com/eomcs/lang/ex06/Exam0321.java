@@ -14,8 +14,8 @@ public class Exam0321 {
     sum = 0;
     while (count < 100) {
       count++;
-      if ((count & 0x01) == 0) { // count & 0x01 ==> count % 2
-        sum += count;
+      if ((count & 0x01) == 0) { //count & 1 ==> count & 0x01 ==> count % 2
+        sum += count;//맨끝의 있는 1비트만 값을 추출해서 0이면 짝수 1이면 홀수
       }
     }
     System.out.printf("count=%d, sum=%d\n", count, sum);

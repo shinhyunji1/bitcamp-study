@@ -9,7 +9,7 @@ public class Exam0413 {
 
     // 조건문 제거
     int i = 1;
-    for (;;) {
+    for (;;) {//while(true)로 써도 된다. 무한루프이기 때문
       if (i > 5)
         break;
       System.out.println(i);

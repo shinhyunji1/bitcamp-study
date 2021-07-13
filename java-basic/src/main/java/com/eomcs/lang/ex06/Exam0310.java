@@ -21,8 +21,9 @@ public class Exam0310 {
     //          문장;
     // => 조건이 참인 동안 문장을 계속 실행한다.
     count = 0;
-    while (count < 5)
+    while (count < 5) {
       System.out.println(count++);
+    }
 
     System.out.println("---------------------------");
 
