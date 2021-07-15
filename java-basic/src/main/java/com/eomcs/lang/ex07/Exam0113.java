@@ -3,14 +3,20 @@ package com.eomcs.lang.ex07;
 import java.util.Scanner;
 
 // 1단계: 공백 출력 코드를 메서드로 추출하기
-//
-public class Exam0111 {
+// 2단계: 별을 출력하는 코드를 메서드로 추출하기
+// 3단계: while 대신 for 문 사용하기
+// 
+public class Exam0113 {
 
   static void printSpaces(int len) {
-    int spaceCnt = 1;
-    while (spaceCnt <= len) {
+    for (int i = 0; i < len; i++) {
       System.out.print(" ");
-      spaceCnt++;
+    }
+  }
+
+  static void printStars(int len) {
+    for (int i = 0; i < len; i++) {
+      System.out.print("*");
     }
   }
 
@@ -20,20 +26,14 @@ public class Exam0111 {
     int len = keyScan.nextInt();
     keyScan.close();
 
-    int starLen = 1;
-    while (starLen <= len) {
+    for (int starLen = 1; starLen <= len; starLen += 2) {
       printSpaces((len - starLen) / 2);
-
-      // 별 출력
-      int starCnt = 1;
-      while (starCnt <= starLen) {
-        System.out.print("*");
-        starCnt++;
-      }
-
-      // 출력 줄 바꾸기
+      printStars(starLen);
       System.out.println();
-      starLen += 2;
     }
   }
 }
+
+
+
+

@@ -3,14 +3,23 @@ package com.eomcs.lang.ex07;
 import java.util.Scanner;
 
 // 1단계: 공백 출력 코드를 메서드로 추출하기
+// 2단계: 별을 출력하는 코드를 메서드로 추출하기
 //
-public class Exam0111 {
+public class Exam0112 {
 
   static void printSpaces(int len) {
     int spaceCnt = 1;
     while (spaceCnt <= len) {
       System.out.print(" ");
       spaceCnt++;
+    }
+  }
+
+  static void printStars(int len) {
+    int starCnt = 1;
+    while (starCnt <= len) {
+      System.out.print("*");
+      starCnt++;
     }
   }
 
@@ -25,11 +34,7 @@ public class Exam0111 {
       printSpaces((len - starLen) / 2);
 
       // 별 출력
-      int starCnt = 1;
-      while (starCnt <= starLen) {
-        System.out.print("*");
-        starCnt++;
-      }
+      printStars(starLen);
 
       // 출력 줄 바꾸기
       System.out.println();

@@ -2,9 +2,9 @@ package com.eomcs.lang.ex07;
 
 import java.util.Scanner;
 
-// 1단계: 공백 출력 코드를 메서드로 추출하기
+//# 메서드 : 사용 전
 //
-public class Exam0111 {
+public class Exam0110_1 {
 
   static void printSpaces(int len) {
     int spaceCnt = 1;
@@ -24,6 +24,7 @@ public class Exam0111 {
     while (starLen <= len) {
       printSpaces((len - starLen) / 2);
 
+
       // 별 출력
       int starCnt = 1;
       while (starCnt <= starLen) {
@@ -33,7 +34,7 @@ public class Exam0111 {
 
       // 출력 줄 바꾸기
       System.out.println();
-      starLen += 2;
+      starLen += 2;//별 개수는 2 증
     }
   }
 }
