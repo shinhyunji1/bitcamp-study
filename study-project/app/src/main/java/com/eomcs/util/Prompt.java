@@ -4,20 +4,21 @@ import java.sql.Date;
 import java.util.Scanner;
 
 public class Prompt {
+
   static Scanner keyboardScan = new Scanner(System.in);
 
-  //사용자로부터 문자열을 입력 받아 리턴한다.
+  // 메서드의 접근 범위를 설정하지 않으면 
+  // 기본 접근 범위는 같은 패키지 및 하위 클래스 만이 접근할 수 있다.
+  // => 다른 패키지에서도 접근할 수 있도록 하려면 public 으로 공개해야 한다.
   public static String inputString(String title) {
     System.out.print(title);
     return keyboardScan.nextLine();
   }
 
-  // 사용자로부터 숫자를 입력 받아 리턴한다.
   public static int inputInt(String title) {
     return Integer.parseInt(inputString(title));
   }
 
-  // 사용자로부터 날짜를 입력 받아 리턴한다.
   public static Date inputDate(String title) {
     return Date.valueOf(inputString(title));
   }
@@ -26,3 +27,10 @@ public class Prompt {
     keyboardScan.close();
   }
 }
+
+
+
+
+
+
+
