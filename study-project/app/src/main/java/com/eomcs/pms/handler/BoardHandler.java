@@ -85,11 +85,48 @@ public class BoardHandler {
       System.out.println("해당 번호의 게시글은 없습니다.");
       return;
     }
-    String label = String.format("제목(%s) : \n", board.title);
-    String title = Prompt.inputString(label);
 
-    label = String.format("내용(%s) : \n", board.content);
+
+    String label = String.format("제목(%s)? \n", board.title);
+    String title = Prompt.inputString(label);
+    label = String.format("내용(%s)? \n", board.content);
     String content = Prompt.inputString(label);
+
+
+
+    String input = Prompt.inputString("정말 변경하시겠습니까?(y/N)");
+    if(input.equalsIgnoreCase("N") || input.length() == 0) {
+      System.out.println("게시글 변경을 취소하였습니다.");
+      return;
+    }
+
+    board.title = title;
+    board.content = content;
+    System.out.println("게시글을 변경하겠습니다.");
+
+  }
+  /*
+  public void update() {
+    System.out.println("[게시글 변경]");
+    int no = Prompt.inputInt("번호? ");
+
+    Board board = null; //로컬변수를 선언해서 board에 대입한다.
+    for (int i = 0; i < this.size; i++) {
+      if (boards[i].no == no) {
+        board = boards[i];
+        break;
+      }
+    }
+
+    if (board == null) {
+      System.out.println("해당 번호의 게시글은 없습니다.");
+      return;
+    }
+
+    String title = Prompt.inputString(String.format("제목(%s) : \n", board.title));
+
+    String label = String.format("내용(%s) : \n", board.content);//format은 리턴하겠다는 것(눈에 많이 익히)
+    String content = Prompt.inputString(label);//replase temp with query
 
     String input = Prompt.inputString("정말 변경하시겠습니까? (y/N)");
     if(input.equalsIgnoreCase("N") || input.length() == 0) {
@@ -102,5 +139,5 @@ public class BoardHandler {
     System.out.println("게시글을 변경하겠습니다.");
 
   }
-
+   */
 }

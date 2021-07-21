@@ -38,6 +38,7 @@ public class ProjectHandler {
         break;
       } else if(owner.length() == 0) {
         System.out.println("프로젝트 등록을 취소합니다.");
+        return;
       }
       System.out.println("등록된 회원이 아닙니다.");
     }
@@ -76,4 +77,84 @@ public class ProjectHandler {
           this.projects[i].members);
     }
   }
+
+  public void detail () {
+    System.out.println("[프로젝트 상세보기]");
+    int no  = Prompt.inputInt("번호? ");
+
+    Project project = null;
+    for (int i = 0; i < size; i++) {
+      if(projects[i].no == no) {
+        project = projects[i];
+        break;//끝내는 이유? for문을 사용하여 다음 if문을 사용한다.
+      }
+    }
+
+    if(project == null) {
+      System.out.println("해당 번호의 프로젝트는 없습니다.");
+    }
+
+    System.out.printf("제목 : %s\n", project.title);
+    System.out.printf("시작일 : %s\n", project.startDate);
+    System.out.printf("종료일 : %s\n", project.endDate);
+    System.out.printf("만든이 : %s\n", project.owner);
+    System.out.printf("팀원 : %s\n", project.members);
+
+
+  }
+
+  public void update () {
+    System.out.println("[프로젝트 상세보기]");
+    int no  = Prompt.inputInt("번호? ");
+
+    Project project = null;
+    for (int i = 0; i < size; i++) {
+      if(projects[i].no == no) {
+        project = projects[i];
+        break;//끝내는 이유? for문을 사용하여 다음 if문을 사용한다.
+      }
+    }
+
+    if(project == null) {
+      System.out.println("해당 번호의 프로젝트는 없습니다.");
+    }
+
+    String title = String.format("제목(%s) : \n", project.title);
+    String label = Prompt.inputString(title);
+    String owner = String.format("만든이(%s) : \n", project.owner);
+    label = Prompt.inputString(owner);
+
+    String input = Prompt.inputString("정말 변경하시겠습니까?(y/N)");
+    if(input.equalsIgnoreCase("N") || input.length() == 0) {
+      System.out.println("해당 번호의 프로젝트 변경은 취소됐습니다.");
+      return;
+    } 
+    project.title = title;
+    project.owner = owner;
+    System.out.println("해당 번호의 프로젝트 변경됐습니다.");
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

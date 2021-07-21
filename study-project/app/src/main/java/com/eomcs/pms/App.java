@@ -40,17 +40,35 @@ public class App {
       } else if (input.equals("/member/list")) {
         memberHandler.list();//주소를 주고 
 
+      }  else if (input.equals("/member/detail")) {
+        memberHandler.detail();
+
+      } else if (input.equals("/member/update")) {
+        memberHandler.update();
+
       }  else if (input.equals("/project/add")) {
         projectHandler.add(memberHandler);//호출하고 싶으면 memberHandler를 호출한다.
 
       }  else if (input.equals("/project/list")) {
         projectHandler.list();
 
+      }  else if (input.equals("/project/detail")) {
+        projectHandler.detail();
+
+      } else if (input.equals("/project/update")) {
+        projectHandler.update();
+
       }  else if (input.equals("/task/add")) {
         taskHandler.add(memberHandler);//
 
       }  else if (input.equals("/task/list")) {
         taskHandler.list();
+
+      }  else if (input.equals("/task/detail")) {
+        taskHandler.detail();
+
+      } else if (input.equals("/task/update")) {
+        taskHandler.update();
 
       }  else if (input.equals("/board/add")) {
         boardHandler.add();

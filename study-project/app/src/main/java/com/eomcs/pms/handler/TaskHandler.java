@@ -65,4 +65,62 @@ public class TaskHandler {
     }
   }
 
+  public void detail() {
+    System.out.println("[작업 상세보기]");
+
+    int no = Prompt.inputInt("번호는? ");
+
+    Task task = null;
+    for (int i = 0; i < size; i++) {
+      if(tasks[i].no == no) {
+        task = tasks[i];
+        break;
+      }
+    }
+
+    if(task == null) {
+      System.out.println("해당 번호의 작업은 없습니다.");
+      return;
+    }
+
+    System.out.printf("내용", task.content);
+    System.out.printf("마감일", task.deadline);
+    System.out.printf("상태", task.status);
+    System.out.printf("담당자", task.owner);
+
+  }
+
+  public void update () {
+    System.out.println("[작업 상세보기]");
+
+    int no = Prompt.inputInt("번호는? ");
+
+    Task task = null;
+    for (int i = 0; i < size; i++) {
+      if(tasks[i].no == no) {
+        task = tasks[i];
+        break;
+      }
+    }
+
+    if(task == null) {
+      System.out.println("해당 번호의 작업은 없습니다.");
+      return;
+    }
+
+    String content = String.format("내용", task.content);
+    String label = Prompt.inputString(content);
+    String owner = String.format("담당자", task.owner);
+    label = Prompt.inputString(owner);
+
+    String input = Prompt.inputString("정말 변경하시겠습니까?(y/N)");
+    if(input.equalsIgnoreCase("N") || input.length() == 0) {
+      System.out.println("해당 번호의 작업변경은 취소됐습니다.");
+      return;
+    }
+
+    task.content = content;
+    task.owner = owner;
+    System.out.println("해당 번호의 작업변경됐습니다.");
+  }
 }

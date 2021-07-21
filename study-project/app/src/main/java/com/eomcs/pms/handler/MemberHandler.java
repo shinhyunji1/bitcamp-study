@@ -53,4 +53,61 @@ public class MemberHandler {
     }
     return false;
   }
+
+  public void detail () {
+    System.out.println("[회원 상세보기]");
+    int no = Prompt.inputInt("번호 : ");
+
+    Member member = null;
+    for (int i = 0; i < size; i++) {
+      if(members[i].no == no) {
+        member = members[i];
+        break;
+      }
+    }
+    if(member == null) {
+      System.out.println("해당 번호의 회원은 없습니다.");
+      return;
+    }
+    System.out.printf("이름 : %s\n", member.name);
+    System.out.printf("이메일 : %s\n", member.email);
+    System.out.printf("암호 : %s\n", member.password);
+    System.out.printf("사진 : %s\n", member.photo);
+    System.out.printf("전화 : %s\n", member.tel);
+    System.out.printf("등록일 : %s\n", member.registeredDate);
+
+  }
+
+  public void update () {
+    System.out.println("[회원 정보변경]");
+    int no = Prompt.inputInt("번호 : ");
+
+    Member member = null;
+    for (int i = 0; i < size; i++) {
+      if(members[i].no == no) {
+        member = members[i];
+        break;
+      }
+    }
+    if(member == null) {
+      System.out.println("해당 번호의 회원은 없습니다.");
+      return;
+    }
+    String name = String.format("이름(%s) : \n", member.name);
+    String label = Prompt.inputString(name);
+    String password = String.format("암호(%s) : \n", member.password);
+    label = Prompt.inputString(password);
+
+    String input = Prompt.inputString("정말 변경하시겠습니까?(y/N)");
+    if(input.equalsIgnoreCase("N") || input.length() == 0) {
+      System.out.println("해당 회원정보 변경은 취소됐습니다.");
+      return;
+    }
+
+    member.name = name;
+    member.password = password;
+    System.out.println("해당 회원정보는 변경됐습니다.");
+  }
+
+
 }
