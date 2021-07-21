@@ -89,6 +89,7 @@ public class BoardHandler {
 
     String label = String.format("제목(%s)? \n", board.title);
     String title = Prompt.inputString(label);
+
     label = String.format("내용(%s)? \n", board.content);
     String content = Prompt.inputString(label);
 

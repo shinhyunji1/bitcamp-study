@@ -93,10 +93,12 @@ public class MemberHandler {
       System.out.println("해당 번호의 회원은 없습니다.");
       return;
     }
-    String name = String.format("이름(%s) : \n", member.name);
-    String label = Prompt.inputString(name);
-    String password = String.format("암호(%s) : \n", member.password);
-    label = Prompt.inputString(password);
+
+    String label = String.format("이름(%s) : \n", member.name);
+    String name = Prompt.inputString(label);
+
+    label = String.format("암호(%s) : \n", member.password);
+    String password = Prompt.inputString(label);
 
     String input = Prompt.inputString("정말 변경하시겠습니까?(y/N)");
     if(input.equalsIgnoreCase("N") || input.length() == 0) {

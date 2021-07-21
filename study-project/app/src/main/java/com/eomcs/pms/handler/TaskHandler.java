@@ -67,7 +67,6 @@ public class TaskHandler {
 
   public void detail() {
     System.out.println("[작업 상세보기]");
-
     int no = Prompt.inputInt("번호는? ");
 
     Task task = null;
@@ -83,10 +82,10 @@ public class TaskHandler {
       return;
     }
 
-    System.out.printf("내용", task.content);
-    System.out.printf("마감일", task.deadline);
-    System.out.printf("상태", task.status);
-    System.out.printf("담당자", task.owner);
+    System.out.printf("내용 : %s\n", task.content);
+    System.out.printf("마감일 : %s\n", task.deadline);
+    System.out.printf("상태 : %s\n", task.status);
+    System.out.printf("담당자 : %s\n", task.owner);
 
   }
 
@@ -108,10 +107,10 @@ public class TaskHandler {
       return;
     }
 
-    String content = String.format("내용", task.content);
-    String label = Prompt.inputString(content);
-    String owner = String.format("담당자", task.owner);
-    label = Prompt.inputString(owner);
+    String label = String.format("내용(%s) : \n", task.content);
+    String content = Prompt.inputString(label);
+    label = String.format("담당자(%s) : \n", task.owner);
+    String owner = Prompt.inputString(label);
 
     String input = Prompt.inputString("정말 변경하시겠습니까?(y/N)");
     if(input.equalsIgnoreCase("N") || input.length() == 0) {

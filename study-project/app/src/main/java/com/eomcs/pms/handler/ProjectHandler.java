@@ -92,6 +92,7 @@ public class ProjectHandler {
 
     if(project == null) {
       System.out.println("해당 번호의 프로젝트는 없습니다.");
+      return;
     }
 
     System.out.printf("제목 : %s\n", project.title);
@@ -119,10 +120,10 @@ public class ProjectHandler {
       System.out.println("해당 번호의 프로젝트는 없습니다.");
     }
 
-    String title = String.format("제목(%s) : \n", project.title);
-    String label = Prompt.inputString(title);
-    String owner = String.format("만든이(%s) : \n", project.owner);
-    label = Prompt.inputString(owner);
+    String label = String.format("제목(%s) : \n", project.title);
+    String title = Prompt.inputString(label);
+    label = String.format("만든이(%s) : \n", project.owner);
+    String owner = Prompt.inputString(label);
 
     String input = Prompt.inputString("정말 변경하시겠습니까?(y/N)");
     if(input.equalsIgnoreCase("N") || input.length() == 0) {
