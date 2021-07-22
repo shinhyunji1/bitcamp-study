@@ -5,7 +5,22 @@ public class Test {
   //배열 위의 항목은 -1로 설정한다.
   //배열을 출력할 때는 -1인 항목은 출력하지 않는다.
   static void deleteValue(int[] arr, int value) {
+    int deletedIndex = -1;
+    for(int i = 0; i < arr.length; i++) {
+      if(arr[i] == value) {
+        deletedIndex = i;
+        break;//반복문을 벗어나기 위해
+      }
+    }
 
+    if(deletedIndex == -1) {
+      return;//메서드 자체를 종료시킨다.
+    }
+
+    for(int i = deletedIndex + 1; i < arr.length; i++) {
+      arr[i - 1] = arr[i];
+    }
+    arr[arr.length - 1] = -1;
 
   }
 
