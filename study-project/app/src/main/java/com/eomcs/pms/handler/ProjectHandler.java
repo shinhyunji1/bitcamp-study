@@ -129,33 +129,61 @@ public class ProjectHandler {
     if(input.equalsIgnoreCase("N") || input.length() == 0) {
       System.out.println("해당 번호의 프로젝트 변경은 취소됐습니다.");
       return;
-    } 
+    }
     project.title = title;
     project.owner = owner;
     System.out.println("해당 번호의 프로젝트 변경됐습니다.");
-
-
   }
 
+  public void delete() {
+    System.out.println("[프로젝트 삭제]");
+    int no = Prompt.inputInt("번호 : ");
 
+    int projectIndex = -1;
+    for (int i = 0; i < size; i++) {
+      if (projects[i].no == no) {
+        projectIndex = i;
+        break;
+      }
+    }
+    if(projectIndex == -1) {
+      System.out.println("해당 번호의 프로젝트가 없습니다.");
+      return;
+    }
 
+    String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N)");
+    if(input.equalsIgnoreCase("n") || input.length() == 0) {
+      System.out.println("프로젝트 삭제를 취소하였습니다.");
+      return;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    for (int i = projectIndex + 1; i < this.size; i++) {
+      this.projects[i - 1] = this.projects[i];
+    }
+    this.projects[--this.size] = null;
+    System.out.println("프로젝트 삭제하였습니다.");
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

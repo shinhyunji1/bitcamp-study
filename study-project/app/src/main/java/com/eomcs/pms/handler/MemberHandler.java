@@ -111,5 +111,45 @@ public class MemberHandler {
     System.out.println("해당 회원정보는 변경됐습니다.");
   }
 
+  public void delete() {
+    System.out.println("[회원 정보삭제]");
+    int no = Prompt.inputInt("번호 : ");
+
+    int memberIndex = -1;
+
+    //for문으로 배열 최대길이까지 실행한다.
+    //만약 배열 멤버의 번호와 사용자 입력 받은 번호랑 같다면
+    //i는 memberIndex라는 변수에 대입한다.
+    for (int i = 0; i < this.size; i++) {
+      if(this.members[i].no == no) {
+        memberIndex = i;
+        break;
+      }
+    }
+    //위 for문을 다 돌고도 맞지 않는 번호라면
+    //if문으로 실행
+    //memberIndex가 -1이라면 해당 번호의 회원은 없다라고 출력한다.
+    if(memberIndex == -1) {
+      System.out.println("해당 번호의 회원은 없습니다.");
+      return;
+    }
+    //위 update랑 똑같다.
+    String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N)");
+    if(input.equalsIgnoreCase("N") || input.length() == 0) {
+      System.out.println("해당 회원정보 삭제은 취소됐습니다.");
+      return;
+    }
+
+    //이제 삭제가 되고 나머지 정보를 출력하는 것
+    //i번을 삭제할때 뒤에서 앞으로 한칸씩 땡긴다.
+    //for문으로 지울 번호의 뒷번호가 앞으로 오게금 초기값, 최대 길이까지 반복실행한다.
+    for(int i = memberIndex + 1; i < this.size; i++) {
+      this.members[i - 1] = this.members[i];
+    }
+    this.members[--this.size] = null;
+    //하나씩 앞으로 이동했기 때문에 마지막 인덱스는 없긴때문에 null로 대입한다.
+
+    System.out.println("게시글을 삭제하였습니다.");
+  }
 
 }
