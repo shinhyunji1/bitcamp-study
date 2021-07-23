@@ -5,18 +5,19 @@ import com.eomcs.pms.domain.Board;
 import com.eomcs.util.Prompt;
 
 public class BoardHandler {
+
+  // 모든 게시판의 최대 배열 개수가 같기 때문에 다음 변수는 
+  // 그냥 static 필드로 남겨둔다.
   static final int MAX_LENGTH = 5;
 
-  // Member 인스턴스의 주소를 저장할 레퍼런스를 3개 생성한다.
+  // 게시판 마다 따로 관리해야 하기 때문에 인스턴스 필드로 전환한다.
+  // => static 옵션을 뺀다.
   Board[] boards = new Board[MAX_LENGTH];
   int size = 0;
 
-  // 다른 패키지에 있는 App 클래스가 다음 메서드를 호출할 수 있도록 공개한다.
   public void add() {
     System.out.println("[새 게시글]");
 
-    // 새 회원 정보를 담을 변수를 준비한다.
-    // 낱 개의 변수가 아니라 Member에 정의된 대로 묶음 변수를 만든다.
     Board board = new Board();
 
     board.no = Prompt.inputInt("번호? ");
@@ -24,14 +25,11 @@ public class BoardHandler {
     board.content = Prompt.inputString("내용? ");
     board.writer = Prompt.inputString("작성자? ");
     board.registeredDate = new Date(System.currentTimeMillis());
-    //board.viewCount = 0;
-    //board.like = 0;
-    System.out.println("게시글을 등록하였습니다.");
+    //    board.viewCount = 0; // 인스턴스 변수는 생성되는 순간 기본 값이 0으로 설정된다.
 
     this.boards[this.size++] = board;
   }
 
-  //다른 패키지에 있는 App 클래스가 다음 메서드를 호출할 수 있도록 공개한다.
   public void list() {
     System.out.println("[게시글 목록]");
     for (int i = 0; i < this.size; i++) {
@@ -40,81 +38,62 @@ public class BoardHandler {
           this.boards[i].title, 
           this.boards[i].writer,
           this.boards[i].registeredDate,
-          this.boards[i].viewCount,
+          this.boards[i].viewCount, 
           this.boards[i].like);
     }
-
   }
 
   public void detail() {
     System.out.println("[게시글 상세보기]");
     int no = Prompt.inputInt("번호? ");
 
-    Board board = null; //로컬변수를 선언해서 board에 대입한다.
-    for (int i = 0; i < this.size; i++) {
-      if (boards[i].no == no) {
-        board = boards[i];
-        break;
-      }
-    }
+    Board board = findByNo(no);
 
     if (board == null) {
-      System.out.println("해당 번호의 게시글은 없습니다.");
+      System.out.println("해당 번호의 게시글이 없습니다.");
       return;
     }
-    System.out.printf("제목 : %s\n", board.title);
-    System.out.printf("내용 : %s\n", board.content);
-    System.out.printf("작성자 : %s\n", board.writer);
-    System.out.printf("등록일 : %s\n", board.registeredDate);
-    System.out.printf("조회수 : %d\n", ++board.viewCount);
+
+    System.out.printf("제목: %s\n", board.title);
+    System.out.printf("내용: %s\n", board.content);
+    System.out.printf("작성자: %s\n", board.writer);
+    System.out.printf("등록일: %s\n", board.registeredDate);
+    System.out.printf("조회수: %d\n", ++board.viewCount);
   }
 
   public void update() {
     System.out.println("[게시글 변경]");
     int no = Prompt.inputInt("번호? ");
 
-    Board board = null; //로컬변수를 선언해서 board에 대입한다.
-    for (int i = 0; i < this.size; i++) {//this.size의 뜻은 배열의 입력된 개수만큼 반복한다.
-      if (this.boards[i].no == no) {
-        board = this.boards[i];
-        break;
-      }
-    }
+    Board board = findByNo(no);
 
     if (board == null) {
-      System.out.println("해당 번호의 게시글은 없습니다.");
+      System.out.println("해당 번호의 게시글이 없습니다.");
       return;
     }
 
+    String title = Prompt.inputString(String.format("제목(%s)? ", board.title));
+    String content = Prompt.inputString(String.format("내용(%s)? ", board.content));
 
-    String label = String.format("제목(%s)? \n", board.title);
-    String title = Prompt.inputString(label);
-
-    label = String.format("내용(%s)? \n", board.content);
-    String content = Prompt.inputString(label);
-
-
-
-    String input = Prompt.inputString("정말 변경하시겠습니까?(y/N)");
-    if(input.equalsIgnoreCase("N") || input.length() == 0) {
+    String input = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
+    if (input.equalsIgnoreCase("n") || input.length() == 0) {
       System.out.println("게시글 변경을 취소하였습니다.");
       return;
     }
 
     board.title = title;
     board.content = content;
-    System.out.println("게시글을 변경하겠습니다.");
-
+    System.out.println("게시글을 변경하였습니다.");
   }
 
   public void delete() {
     System.out.println("[게시글 삭제]");
     int no = Prompt.inputInt("번호? ");
 
-    int boardIndex = -1;
+    int boardIndex = indexOf(no);
 
-    //Board 인스턴스가 들어 있는 배열을 뒤져서
-    //게시글 번호와 일치하는 Board 인스턴스를 찾는다.
+    // Board 인스턴스가 들어 있는 배열을 뒤져서
+    // 게시글 번호와 일치하는 Board 인스턴스를 찾는다. 
     for (int i = 0; i < this.size; i++) {
       if (this.boards[i].no == no) {
         boardIndex = i;
@@ -123,20 +102,48 @@ public class BoardHandler {
     }
 
     if (boardIndex == -1) {
-      System.out.println("해당 번호의 게시글은 없습니다.");
+      System.out.println("해당 번호의 게시글이 없습니다.");
       return;
     }
-    //사용자의 입력한 값을 변수로
-    String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N)");
+
+    String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) ");
     if (input.equalsIgnoreCase("n") || input.length() == 0) {
-      System.out.println("게시글 삭제을 취소하였습니다.");
-      return;//여기서 멈추고 다음으로 넘어간다.
+      System.out.println("게시글 삭제를 취소하였습니다.");
+      return;
     }
+
     for (int i = boardIndex + 1; i < this.size; i++) {
       this.boards[i - 1] = this.boards[i];
     }
-    this.boards[--this.size] = null;//맨 마지막꺼는 무조건 null로 세팅
+    this.boards[--this.size] = null;
 
     System.out.println("게시글을 삭제하였습니다.");
   }
+
+  private Board findByNo(int no) {
+    for (int i = 0; i < this.size; i++) {
+      if (this.boards[i].no == no) {
+        return this.boards[i];
+      }
+    }
+    return null;
+  }
+
+  private int indexOf(int no) {
+    for (int i = 0; i < this.size; i++) {
+      if (this.boards[i].no == no) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+
 }
+
+
+
+
+
+
+
