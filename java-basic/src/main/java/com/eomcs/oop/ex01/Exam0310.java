@@ -4,7 +4,7 @@ package com.eomcs.oop.ex01;
 //
 public class Exam0310 {
   public static void main(String[] args) {
-    class Score {
+    class Score {//메모리 설계도
       String name;
       int kor;
       int eng;
@@ -20,7 +20,7 @@ public class Exam0310 {
     // => s1과 s2는 같은 메모리를 가리킨다.
     Score s2 = s1;
 
-    s1.name = "홍길동";
+    s1.name = "홍길동";//s1에 name 변수에 홍길동을 집어넣는다.
 
     // s1이 가리키는 메모리는 s2를 사용하여 접근할 수 있다.
     System.out.println(s2.name);

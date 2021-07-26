@@ -6,7 +6,7 @@ public class Exam0221 {
   public static void main(String[] args) {
     // 여러 개의 인스턴스 주소 저장하기
 
-    class Score {
+    class Score {//클래스 설계도 만들기
       String name;
       int kor;
       int eng;
@@ -15,9 +15,9 @@ public class Exam0221 {
       float aver;
     }
 
-    Score[] arr = new Score[3];
+    Score[] arr = new Score[3];//배열 주소 저장할 레퍼런스 생
 
-    arr[0] = new Score();
+    arr[0] = new Score();//레퍼런스 배열의 각 항목에 인스턴스를 저장
     arr[1] = new Score();
     arr[2] = new Score();
 

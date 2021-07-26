@@ -17,8 +17,9 @@ public class Exam0114 {
 
     // 클래스를 이용하면 성적 정보와 같은 여러 개의 값을 한 번에 리턴 받을 수 있다.
     Score s = createScore("홍길동", 100, 100, 100);
+    //내부적으로 인스턴스를 만들어서 리턴하는 경우
 
-    printScore(s);
+    printScore(s);//인스턴스 주소를 받는경우
   }
 
   static void printScore(Score s) {

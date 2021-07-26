@@ -4,14 +4,15 @@ package com.eomcs.oop.ex01;
 //
 public class Exam0330 {
   public static void main(String[] args) {
-    class Score {
+    class Score {//메서드안에 클래스가 있는데 이게 실행하는 것이 아니다. 설계도면은 따로 있다.
+      //컴파일할때 쏙 빠져서 따로 클래스 파일로 뽑힌다.
       String name;
       int kor;
       int eng;
       int math;
       int sum;
       float aver;
-    }
+    }//캄파일에게 알려주려고 메인메서드에만 쓰라고! 안에 넣은거다
 
     Score s1 = new Score();
     Score s2 = new Score();
