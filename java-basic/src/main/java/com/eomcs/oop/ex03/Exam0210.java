@@ -12,7 +12,7 @@ public class Exam0210 {
       System.out.println("m1()");
     }
 
-    //2) 인스턴스 메서드 
+    //2) 인스턴스 메서드  = non-static 메서드
     //   => static 이 붙지 않은 메서드이다.
     //   => 인스턴스 주소가 있어야만 호출할 수 있다.
     void m2() {

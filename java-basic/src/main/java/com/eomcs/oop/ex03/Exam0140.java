@@ -4,7 +4,7 @@ package com.eomcs.oop.ex03;
 
 public class Exam0140 {
   static class A {
-    static int v1;
+    static int v1;//굳이 = 0으로 안해도 0으로 초기화된다.
     int v2;
   }
 
@@ -34,7 +34,7 @@ public class Exam0140 {
 
     // 인스턴스 변수는 인스턴스를 만들 때 마다 생성된다.
     A p2 = new A(); // 새 v2 변수가 생성된다.
-    p2.v2 = 300;
+    p2.v2 = 300;//p2가 가르키는 객체를 찾아가서
 
     System.out.printf("A.v1=%d, p.v2=%d, p2.v2=%d\n", A.v1, p.v2, p2.v2);
   }

@@ -36,6 +36,7 @@ public class Exam0440 {
     }
 
     public void compute() {
+      //this.(okok);//생성자를 따로 호출 불가능
       this.sum = this.kor + this.eng + this.math;
       this.average = this.sum / 3f;
     }

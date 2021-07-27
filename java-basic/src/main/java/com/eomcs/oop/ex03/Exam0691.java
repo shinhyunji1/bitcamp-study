@@ -8,7 +8,7 @@ public class Exam0691 {
 
     static {
       System.out.println("A.static{}");
-      a += B.b;
+      a += B.b;//잠시 멈추고 B 클래스의 로딩을 하고 다시 돌아온다.
     }
   }
 

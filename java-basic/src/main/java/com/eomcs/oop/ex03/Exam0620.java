@@ -3,7 +3,7 @@ package com.eomcs.oop.ex03;
 
 public class Exam0620 {
 
-  public static class A {
+  public static class A {//nasted class로 
     static int a;
 
     static void m() {}
