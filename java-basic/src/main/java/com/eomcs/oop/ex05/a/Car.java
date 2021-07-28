@@ -1,7 +1,7 @@
 package com.eomcs.oop.ex05.a;
 
 public class Car {
-
+  //인스턴스 변수 3
   public String model;
   public String maker;
   public int capacity;

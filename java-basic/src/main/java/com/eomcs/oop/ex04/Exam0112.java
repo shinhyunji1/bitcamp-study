@@ -38,6 +38,11 @@ public class Exam0112 {
     // 
     String s2 = new String(bytes, "EUC-KR");
     System.out.println(s2);
+
+    //    int a = Integer.parseInt("123");
+    //    java.util.Date d = new java.util.Date();
+    //    java.sql.Date d = new java.sql.Date(2021, 7, 28);
+    //    d.getHours();
   }
 }
 

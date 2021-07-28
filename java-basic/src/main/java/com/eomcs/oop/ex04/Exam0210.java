@@ -53,7 +53,7 @@ public class Exam0210 {
     // 즉 "클래스 메서드=스태틱 메서드"를 제공한다.
 
     // => 형식을 갖춘 문자열을 만들기
-    String s4 = String.format("%s님 반갑습니다", "홍길동");
+    String s4 = String.format("%s님 반갑습니다", "홍길동");//스태틱 메서드이다.(인스턴스 없이 호출)
     System.out.println(s4);
 
     // => 구분자와 문자열들을 파라미터로 받아서 새 문자열을 만든다.
@@ -61,7 +61,7 @@ public class Exam0210 {
     System.out.println(s5);
 
     // => primitive 값을 문자열로 만든다.
-    String s6 = String.valueOf(true);
+    String s6 = String.valueOf(true);//스태틱 메서드이다.(인스턴스 없이 호출)
     String s7 = String.valueOf(3.14f);
     String s8 = String.valueOf(100);
     System.out.println(s6);

@@ -7,11 +7,11 @@ public class Exam0111 {
     // 생성자를 호출하여 문자열 인스턴스를 초기화시킨다.
 
     // => 문자열 리터럴을 사용하여 String 인스턴스를 초기화시키기.
-    String s1 = new String("Hello");
+    String s1 = new String("Hello");//String(스트링 리터럴) 생성자를 호출하여 인스턴스 초기화
 
     // => char[] 을 사용하여 String 인스턴스 초기화시키기.
     char[] chars = new char[] {'H', 'e', 'l', 'l', 'o'};
-    String s2 = new String(chars);
+    String s2 = new String(chars);//String(char[]) 생성자를 호출하여 인스턴스 초기화
 
     // => 바이트 배열을 가지고 String 인스턴스 초기화시키기
     byte[] bytes = {
@@ -21,19 +21,20 @@ public class Exam0111 {
         (byte)0x6c, // l
         (byte)0x6f  // o 
     };
-    String s3 = new String(bytes);
+    String s3 = new String(bytes);//String(byte[]) 생성자를 호출하여 인스턴스 초기화
 
     System.out.printf("%s, %s, %s\n", s1, s2, s3);
   }
 }
 
-// 생성자의 활용
+// 생성자의 활용(
 // => 인스턴스 변수를 초기화시키기 위해 여러 개의 생성자를 만들어 제공할 수 있다.
 // => 자신에게 맞는 적절한 생성자를 호출하여 인스턴스를 초기화시킨 후 사용하면 된다. 
+//
 
 
-
-
+//인스턴스 안에는 메서드는 없다
+//인스턴스는 변수들의 묶음이다. 기억해라
 
 
 
