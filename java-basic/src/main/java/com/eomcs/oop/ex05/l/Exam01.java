@@ -13,7 +13,7 @@ package com.eomcs.oop.ex05.l;
 // Sedan과 Truck은 이 클래스의 서브클래스가 된다.
 //
 // start()와 shutdown() 은
-// Sedan이나 Truck 모두 같은 작업을 수행하기 때문에 상속 받은 것을 그대로 사용하며 되지만,
+// Sedan이나 Truck 모두 같은 작업을 수행하기 때문에 상속 받은 것을 그대로 사용하면 되지만,
 // run()은 Sedan과 Truck이 서로 다르게 작업하기 때문에 재정의(오버라이딩) 해야 한다.
 public class Exam01 {
 
@@ -21,6 +21,14 @@ public class Exam01 {
     Sedan s = new Sedan();
     Truck t = new Truck();
     Car c = new Car();
+    // 사실 Car 클래스는 Sedan과 Truck에 공통으로 들어가는 코드를 
+    // 좀 더 쉽게 관리하기 위해 추출하여 클래스로 만든 것이다.
+    // 이렇게 직접 사용하려고 만든 클래스가 아니다.
+    // 그럼에도 불구하고 위의 코드처럼
+    // Car 클래스의 인스턴스를 만드는 것을 막을 수가 없다.
+    // 이것을 막는 문법이 "추상클래스" 이다.
+    // 다음 패키지의 예제를 확인하라!
+
   }
 
 }
