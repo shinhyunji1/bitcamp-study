@@ -2,8 +2,8 @@
 package com.eomcs.oop.ex06.d;
 
 
-abstract class Car {
-  public abstract void run();
+abstract class Car {//추상클래스는 인스턴스를 만들 수 없음(new)
+  public abstract void run();//메서드 바디만 있음 선언만 되어 있음 // 추상메서드
   public void m() {}
 }
 

@@ -8,7 +8,7 @@ class C {
   final int v1;
 
   public C() {
-    v1 = 100;
+    v1 = 100; // 위의 final int v1와 같은 선언 문장임 둘 중에 하나 선언하면 된다.
   }
 
   public void m1() {

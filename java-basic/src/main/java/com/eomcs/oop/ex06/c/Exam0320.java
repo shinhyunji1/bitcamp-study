@@ -16,9 +16,21 @@ public class Exam0320 {
     // => private 은 오버라이딩 자체가 불가능하기 때문에 접근 범위를 확대할 수 없다.
     //    @Override public m() {}
 
-    @Override protected void m2() {} // default 보다 접근 범위를 확대했기 때문에 OK!
+    //    @Override private void m2() {}
+    //    @Override void m2() {}
+    //    @Override protected void m2() {}
+    @Override public void m2() {} // default 보다 접근 범위를 확대했기 때문에 OK!
+
+
+    //    @Override private void m3() {}
+    //    @Override void m3() {}
+    //    @Override protected void m3() {}
     @Override public void m3() {} // protected 보다 접근 범위를 확대!
 
+    //    @Override private void m4() {}
+    //    @Override void m4() {}
+    //    @Override protected void m4() {}
+    @Override public void m4() {}
   }
 
   public static void main(String[] args) {
