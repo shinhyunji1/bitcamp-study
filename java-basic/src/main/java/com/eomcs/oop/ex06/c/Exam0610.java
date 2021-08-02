@@ -33,11 +33,7 @@ public class Exam0610 {
 
 
   public static void main(String[] args) {
-    new CarFactory().makeCar().run();
-    new SedanFactory().makeCar().run();
-    new TruckFactory().makeCar().run();
-    new DumpTruckFactory().makeCar().run();
-    new DumpTruckFactory2().makeCar().run();
+
   }
 }
 
