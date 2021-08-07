@@ -4,6 +4,8 @@ import com.eomcs.pms.handler.BoardHandler;
 import com.eomcs.pms.handler.MemberHandler;
 import com.eomcs.pms.handler.ProjectHandler;
 import com.eomcs.pms.handler.TaskHandler;
+import com.eomcs.pms.menu.Menu;
+import com.eomcs.pms.menu.MenuGroup;
 import com.eomcs.util.Prompt;
 
 public class App {
@@ -15,142 +17,138 @@ public class App {
 
   public static void main(String[] args) {
 
+    App app = new App();
+    app.service();
 
-    while (true) {
-      int menuNo = doMainMenu();
+  }
 
-
-      if(menuNo == 0) {
-        break;
-
-      } else if(menuNo == 1) {
-        doBoardMenu();
-      }  else if(menuNo == 2) {
-        doMemberMenu();
-      }  else if(menuNo == 3) {
-        doProjectMenu();
-      }  else if(menuNo == 4) {
-        doTaskMenu();
-      } else {
-        continue;
-      }
-
-
-      System.out.println();
-    }
-
-    // Prompt 가 소유하고 관리하고 있는 자원을 닫으라고 명령한다. 
+  public void service() {
+    createMenu().execute();
     Prompt.close();
+
   }
 
-  static void doBoardMenu() {
-    while(true) {
-      System.out.println("[메인/게시판]");
-      System.out.println("1. 등록");
-      System.out.println("2. 목록");
-      System.out.println("3. 상세보기");
-      System.out.println("4. 변경");
-      System.out.println("5. 삭제");
-      System.out.println("0. 이전메뉴");
+  static Menu createMenu() {
+    MenuGroup mainMenuGroup = new MenuGroup("메인");
+    mainMenuGroup.setPrevMenuTitle("종료");
 
-      int menuNo = Prompt.inputInt("게시판> ");
-      switch (menuNo) {
-        case 1: boardHandler.add(); break;
-        case 2: boardHandler.list(); break;
-        case 3: boardHandler.detail(); break;
-        case 4: boardHandler.update(); break;
-        case 5: boardHandler.delete(); break;
-        case 0: return;
-        default:
-          System.out.println("무효한 메뉴 번호입니다.");
-      }
-      System.out.println();
-    }
-  }
+    MenuGroup boardMenu = new MenuGroup("게시판");
+    mainMenuGroup.add(boardMenu);
 
-  static void doMemberMenu() {
-    while(true) {
-      System.out.println("[메인/회원]");
-      System.out.println("1. 등록");
-      System.out.println("2. 목록");
-      System.out.println("3. 상세보기");
-      System.out.println("4. 변경");
-      System.out.println("5. 삭제");
-      System.out.println("0. 이전메뉴");
+    boardMenu.add(new Menu("등록") {
+      @Override
+      public void execute() {
+        boardHandler.add(); 
+      }});
+    boardMenu.add(new Menu("목록") {
+      @Override
+      public void execute() {
+        boardHandler.list(); 
+      }});
+    boardMenu.add(new Menu("상세보기") {
+      @Override
+      public void execute() {
+        boardHandler.detail(); 
+      }});
+    boardMenu.add(new Menu("변경") {
+      @Override
+      public void execute() {
+        boardHandler.update(); 
+      }});
+    boardMenu.add(new Menu("삭제") {
+      @Override
+      public void execute() {
+        boardHandler.delete(); 
+      }});
 
-      int menuNo = Prompt.inputInt("회원> ");
-      switch (menuNo) {
-        case 1: memberHandler.add(); break;
-        case 2: memberHandler.list(); break;
-        case 3: memberHandler.detail(); break;
-        case 4: memberHandler.update(); break;
-        case 5: memberHandler.delete(); break;
-        case 0: return;
-        default:
-          System.out.println("무효한 메뉴 번호입니다.");
-      }
-      System.out.println();
-    }
-  }
+    MenuGroup memberMenu = new MenuGroup("회원");
+    mainMenuGroup.add(memberMenu);
 
-  static void doProjectMenu() {
-    while(true) {
-      System.out.println("[메인/프로젝트]");
-      System.out.println("1. 등록");
-      System.out.println("2. 목록");
-      System.out.println("3. 상세보기");
-      System.out.println("4. 변경");
-      System.out.println("5. 삭제");
-      System.out.println("0. 이전메뉴");
+    memberMenu.add(new Menu("등록") {
+      @Override
+      public void execute() {
+        memberHandler.add(); 
+      }});
+    memberMenu.add(new Menu("목록") {
+      @Override
+      public void execute() {
+        memberHandler.list(); 
+      }});
+    memberMenu.add(new Menu("상세보기") {
+      @Override
+      public void execute() {
+        memberHandler.detail(); 
+      }});
+    memberMenu.add(new Menu("변경") {
+      @Override
+      public void execute() {
+        memberHandler.update(); 
+      }});
+    memberMenu.add(new Menu("삭제") {
+      @Override
+      public void execute() {
+        memberHandler.delete(); 
+      }});
 
-      int menuNo = Prompt.inputInt("프로젝트> ");
-      switch (menuNo) {
-        case 1: projectHandler.add(); break;
-        case 2: projectHandler.list(); break;
-        case 3: projectHandler.detail(); break;
-        case 4: projectHandler.update(); break;
-        case 5: projectHandler.delete(); break;
-        case 0: return;
-        default:
-          System.out.println("무효한 메뉴 번호입니다.");
-      }
-      System.out.println();
-    }
-  }
+    MenuGroup projectMenu = new MenuGroup("프로젝트");
+    mainMenuGroup.add(projectMenu);
 
-  static void doTaskMenu() {
-    while(true) {
-      System.out.println("[메인/작업]");
-      System.out.println("1. 등록");
-      System.out.println("2. 목록");
-      System.out.println("3. 상세보기");
-      System.out.println("4. 변경");
-      System.out.println("5. 삭제");
-      System.out.println("0. 이전메뉴");
+    projectMenu.add(new Menu("등록") {
+      @Override
+      public void execute() {
+        projectHandler.add(); 
+      }});
+    projectMenu.add(new Menu("목록") {
+      @Override
+      public void execute() {
+        projectHandler.list(); 
+      }});
+    projectMenu.add(new Menu("상세보기") {
+      @Override
+      public void execute() {
+        projectHandler.detail(); 
+      }});
+    projectMenu.add(new Menu("변경") {
+      @Override
+      public void execute() {
+        projectHandler.update(); 
+      }});
+    projectMenu.add(new Menu("삭제") {
+      @Override
+      public void execute() {
+        projectHandler.delete(); 
+      }});
 
-      int menuNo = Prompt.inputInt("작업> ");
-      switch (menuNo) {
-        case 1: taskHandler.add(); break;
-        case 2: taskHandler.list(); break;
-        case 3: taskHandler.detail(); break;
-        case 4: taskHandler.update(); break;
-        case 5: taskHandler.delete(); break;
-        case 0: return;
-        default:
-          System.out.println("무효한 메뉴 번호입니다.");
-      }
-      System.out.println();
-    }
-  }
+    MenuGroup taskMenu = new MenuGroup("작업");
+    mainMenuGroup.add(taskMenu);
 
-  static int doMainMenu() {
-    System.out.println("[메인]");
-    System.out.println("1. 게시판");
-    System.out.println("2. 회원");
-    System.out.println("3. 프로젝트");
-    System.out.println("4. 작업");
-    System.out.println("0. 종료");
-    return Prompt.inputInt("메인> ");
+    taskMenu.add(new Menu("등록") {
+      @Override
+      public void execute() {
+        taskHandler.add(); 
+      }});
+    taskMenu.add(new Menu("목록") {
+      @Override
+      public void execute() {
+        taskHandler.list(); 
+      }});
+    taskMenu.add(new Menu("상세보기") {
+      @Override
+      public void execute() {
+        taskHandler.detail(); 
+      }});
+    taskMenu.add(new Menu("변경") {
+      @Override
+      public void execute() {
+        taskHandler.update(); 
+      }});
+    taskMenu.add(new Menu("삭제") {
+      @Override
+      public void execute() {
+        taskHandler.delete(); 
+      }});
+
+    return mainMenuGroup;
   }
 }
 
