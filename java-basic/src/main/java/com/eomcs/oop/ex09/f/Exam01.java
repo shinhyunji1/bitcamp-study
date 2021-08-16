@@ -19,7 +19,7 @@ public class Exam01 {
     c1.render("오호라... 펜으로 그린 것!");
 
     // 볼펜을 교체한다.
-    c1.setPen(t2);
+    c1.setPen(t2);//펜 규칙에 따라 만든 객체라 이 자리에 캔버스, 멀티펜등 들어갈 수 있따.
 
     // 멀티펜을 사용할 수 있게 한다.
     t2.rotate(Zebra.ON);

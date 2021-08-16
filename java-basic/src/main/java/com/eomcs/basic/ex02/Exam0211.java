@@ -9,7 +9,7 @@ public class Exam0211 {
 
     // wapper 클래스가 없다면,
     // 다음과 같이 각 타입에 대한 메서드가 따로 있어야 한다.
-    long l = 100L;
+    long l = 100L;//primitive 타입
     double d = 3.14;
     boolean bool = true;
 

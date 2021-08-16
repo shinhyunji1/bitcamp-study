@@ -31,9 +31,9 @@ public interface Computer {
   // 바로 다음 문법을 사용하라!
   // "디폴트 메서드(default method)" - JDK8에서 추가한 문법이다.
   //
-  default void touch() {
-    // 구현할 코드 있으면 작성하고, 없으면 빈 채로 둔다.
-  }
+    default void touch() {
+      // 구현할 코드 있으면 작성하고, 없으면 빈 채로 둔다.
+    }
 
   // 위에 touch()라는 새 규칙을 추가하더라도
   // 기존에 작성한 FirstComputer, SecondComputer, ThirdComputer 클래스 모두

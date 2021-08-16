@@ -4,6 +4,7 @@ package com.eomcs.oop.ex09.b;
 interface MyInterface3 {
   void m1();
 
+
   // default method:
   // - 기존 프로젝트에 영향을 끼치지 않으면서 기존 규칙에
   //   새 메서드를 추가할 때 유용한다.
