@@ -1,12 +1,12 @@
 package com.eomcs.pms.handler;
 
-public class ArrayList implements List {
+public class ArrayList extends AbstractList {
 
   static final int MAX_LENGTH = 5;
 
   Object[] list = new Object[MAX_LENGTH];
-  int size = 0;
 
+  @Override
   public void add(Object obj) {
     if (size == list.length) {
       Object[] arr = new Object[list.length + (list.length >> 1)];
@@ -18,6 +18,7 @@ public class ArrayList implements List {
     this.list[this.size++] = obj;
   }
 
+  @Override
   public Object[] toArray() {
     Object[] arr = new Object[this.size]; // 배열에 저장된 값을 담을 정도의 크기를 가진 새 배열을 만든다.
     for (int i = 0; i < this.size; i++) { // 배열에 저장된 값을 새 배열에 복사한다.
@@ -26,6 +27,7 @@ public class ArrayList implements List {
     return arr; // 새 배열을 리턴한다.
   }
 
+  @Override
   public boolean remove(Object obj) {
     int index = indexOf(obj);
     if (index == -1) {
@@ -48,5 +50,6 @@ public class ArrayList implements List {
     }
     return -1;
   }
+
 
 }

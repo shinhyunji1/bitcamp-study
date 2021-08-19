@@ -1,6 +1,6 @@
 package com.eomcs.pms.handler;
 
-public class LinkedList implements List {
+public class LinkedList extends AbstractList {
 
   static class Node {
     Object item;
@@ -13,8 +13,8 @@ public class LinkedList implements List {
 
   Node head;
   Node tail;
-  int size;
 
+  @Override
   public void add(Object item) {
     // 새 노드를 만든다. 생성자를 호출할 때, 노드에 담을 Board 객체 주소를 넘긴다. 
     Node node = new Node(item);
@@ -32,6 +32,7 @@ public class LinkedList implements List {
     size++;
   }
 
+  @Override
   public Object[] toArray() {
     // 배열에 저장된 값을 담을 정도의 크기를 가진 새 배열을 만든다.
     Object[] arr = new Object[this.size]; 
@@ -46,6 +47,7 @@ public class LinkedList implements List {
     return arr; // 새 배열을 리턴한다.
   }
 
+  @Override
   public boolean remove(Object item) {
     Node node = head;
     Node prev = null;
@@ -74,6 +76,7 @@ public class LinkedList implements List {
 
     return false;
   }
+
 }
 
 
