@@ -1,14 +1,15 @@
 package com.eomcs.pms.handler;
 
 import java.sql.Date;
+import java.util.List;
 import com.eomcs.pms.domain.Member;
 import com.eomcs.util.Prompt;
 
 public class MemberHandler {
 
-  List memberList;
+  List<Member> memberList;
 
-  public MemberHandler(List memberList) {
+  public MemberHandler(List<Member> memberList) {//제한을 걸어놔서 Member 이외에는 불가능!
     this.memberList = memberList;
   }
 
@@ -26,15 +27,15 @@ public class MemberHandler {
     member.setRegisteredDate(new Date(System.currentTimeMillis()));
 
     memberList.add(member);
+    //    memberList.add(new String ("Hello!")); //오류!
   }
 
   public void list() {
     System.out.println("[회원 목록]");
 
-    Object[] list = memberList.toArray();
+    Member[] list = memberList.toArray(new Member[0]);
 
-    for (Object obj : list) {
-      Member member = (Member) obj;
+    for (Member member : list) {
       System.out.printf("%d, %s, %s, %s, %s\n", 
           member.getNo(), 
           member.getName(), 
@@ -117,9 +118,8 @@ public class MemberHandler {
   }
 
   private Member findByNo(int no) {
-    Object[] arr = memberList.toArray();
-    for (Object obj : arr) {
-      Member member = (Member) obj;
+    Member[] arr = memberList.toArray(new Member[0]);
+    for (Member member : arr) {
       if (member.getNo() == no) {
         return member;
       }
@@ -128,9 +128,8 @@ public class MemberHandler {
   }
 
   public boolean exist(String name) {
-    Object[] arr = memberList.toArray();
-    for (Object obj : arr) {
-      Member member = (Member) obj;
+    Member[] arr = memberList.toArray(new Member[0]);
+    for (Member member : arr) { //제네릭을 사용하면서 형변화를 할 필요가 없어짐
       if (member.getName().equals(name)) {
         return true;
       }
