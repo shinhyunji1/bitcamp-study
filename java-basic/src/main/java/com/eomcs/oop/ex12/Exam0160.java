@@ -22,6 +22,7 @@ public class Exam0160 {
   }
 
   static void m1(final A obj) {
+    obj1.print();
     obj.print();
   }
 }
