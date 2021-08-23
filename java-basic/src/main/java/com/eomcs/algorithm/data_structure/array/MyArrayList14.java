@@ -31,7 +31,7 @@ public class MyArrayList14 {
   private int size;
 
   public MyArrayList14(int initialCapacity) {
-    elementData = new Object[initialCapacity];
+    elementData = new Object[initialCapacity];// 14)
   }
 
   public boolean add(Object e) {

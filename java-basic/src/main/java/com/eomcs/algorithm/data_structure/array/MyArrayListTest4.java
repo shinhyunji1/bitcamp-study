@@ -37,7 +37,7 @@ public class MyArrayListTest4 {
 
   static void print(ArrayList list) {
     for (int i = 0; i < list.size(); i++) {
-      String str = (String) list.get(i);
+      String str = (String) list.get(i);//형변환을 해야함 안하면 Object 객체이기 때문
       System.out.print(str + ",");
     }
     System.out.println();

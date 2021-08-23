@@ -135,6 +135,7 @@ public class MyArrayList20 {
     return this.size;
   }
 
+//20) ArrayList에 보관되어 있는 인스턴스 목록을 배열로 리턴하는 toArray() 메서드를 추가한다.
   public Object[] toArray() {
     Object[] arr = new Object[this.size];
     for (int i = 0; i < arr.length; i++) {

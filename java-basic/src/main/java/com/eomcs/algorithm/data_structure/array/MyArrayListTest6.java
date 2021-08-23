@@ -28,7 +28,7 @@ public class MyArrayListTest6 {
   static void print2(MyArrayList<String> list) {
     String[] arr = new String[list.size()];
     String[] arr2 = list.toArray(arr);
-    System.out.println(arr == arr2);
+    System.out.println(arr == arr2);//boolean 타입으로 값 출력
     for (int i = 0; i < list.size(); i++) {
       System.out.print(arr[i] + ",");
     }
@@ -38,7 +38,7 @@ public class MyArrayListTest6 {
   static void print3(MyArrayList<String> list) {
     String[] arr = new String[1];
     String[] arr2 = list.toArray(arr);
-    System.out.println(arr == arr2);
+    System.out.println(arr == arr2);//boolean 타입으로 값 출력
     for (int i = 0; i < list.size(); i++) {
       System.out.print(arr2[i] + ",");
     }
