@@ -59,17 +59,61 @@ public class Exam0240 {
     list.add(m2);
     list.add(m3);
 
-    class MyConsumer implements Consumer<Member> {
+    // 1)
+    // 목록 조회 : 반복문 사용
+    //    for (int i = 0; i < list.size(); i++) {
+    //      Member m = list.get(i);
+    //      System.out.printf("%s(%d)\n", m.name, m.age);
+    //    }
+
+    // 2)
+    // 목록 조회 : toArray() 사용
+    //    Object[] arr = list.toArray();
+    //    for (Object item : arr) {
+    //      Member m = (Member)item;
+    //      System.out.printf("%s(%d)\n", m.name, m.age);
+    //    }
+
+    // 3)
+    // 목록 조회 : toArray(E[])사용 // 그 타입 리턴. 형변환 할 필요 없음
+    //    Member[] arr = new Member[list.size()];
+    //    list.toArray(arr);
+    //    for (Member m : arr) {
+    //      System.out.printf("%s(%d)\n", m.name, m.age);
+    //    }
+
+    // 또는 이렇게도 가능함
+    //    Member[] arr = list.toArray(new Member[0]);
+    //    for (Member m : arr) {
+    //      System.out.printf("%s(%d)\n", m.name, m.age);
+    //    }
+
+
+    list.forEach(new Consumer<Member>() {
       @Override
       public void accept(Member m) {
-        // forEach() 에서 반복문을 돌릴 때
-        // Consumer 규칙에 따라 
-        // 각 항목에 대해 이 메서드를 호출한다.
-        System.out.printf("이름: %s, 나이: %d\n", m.name, m.age);
+        System.out.printf("%s(%d)\n", m.name, m.age);
       }
-    }
+    });
 
-    list.forEach(new MyConsumer());
+
+
+
+
+    //    Iterator 목록에서값을꺼내주는자 = list.in=iteration;
+    //    while ()
+
+    //    class MyConsumer implements Consumer<Member> {
+    //      @Override
+    //      public void accept(Member m) {
+    //        // forEach() 에서 반복문을 돌릴 때
+    //        // Consumer 규칙에 따라 
+    //        // 각 항목에 대해 이 메서드를 호출한다.
+    //        System.out.printf("이름: %s, 나이: %d\n", m.name, m.age);
+    //      }
+    //    }
+    //
+    //    list.forEach(new MyConsumer());
   }
 }
 

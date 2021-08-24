@@ -3,7 +3,7 @@ package com.eomcs.oop.ex12;
 
 public class Exam0313 {
 
-  static interface Player {
+  static interface Player {//인터페이스의 메서드 하나일 경우 람다식 가능!
     void play();
   }
 

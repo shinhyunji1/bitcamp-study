@@ -4,10 +4,10 @@ package com.eomcs.oop.ex12;
 public class Exam0410 {
 
   static interface Interest {
-    double compute(int money);
+    double compute(int money);//값을 받을 변수 선언
   }
 
-  static Interest getInterest(final double rate) {
+  static Interest getInterest(final double rate) {//get으로 값 출력
     // 로컬 클래스로 인터페이스 구현한 후 객체 리턴하기
     class InterestImpl implements Interest {
       double rate;
