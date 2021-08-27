@@ -9,7 +9,7 @@ public class MemberHandler {
 
   List<Member> memberList;
 
-  public MemberHandler(List<Member> memberList) {//제한을 걸어놔서 Member 이외에는 불가능!
+  public MemberHandler(List<Member> memberList) {
     this.memberList = memberList;
   }
 
@@ -27,7 +27,6 @@ public class MemberHandler {
     member.setRegisteredDate(new Date(System.currentTimeMillis()));
 
     memberList.add(member);
-    //    memberList.add(new String ("Hello!")); //오류!
   }
 
   public void list() {
@@ -129,7 +128,7 @@ public class MemberHandler {
 
   public boolean exist(String name) {
     Member[] arr = memberList.toArray(new Member[0]);
-    for (Member member : arr) { //제네릭을 사용하면서 형변화를 할 필요가 없어짐
+    for (Member member : arr) {
       if (member.getName().equals(name)) {
         return true;
       }

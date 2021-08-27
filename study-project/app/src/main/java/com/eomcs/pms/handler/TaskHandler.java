@@ -10,7 +10,7 @@ public class TaskHandler {
   List<Task> taskList;
   MemberHandler memberHandler;
 
-  // 테스크 목록을 다루는 리스트이다.(제한적이다.)
+
   public TaskHandler(List<Task> taskList, MemberHandler memberHandler) {
     this.taskList = taskList;
     this.memberHandler = memberHandler;
@@ -37,7 +37,6 @@ public class TaskHandler {
   //다른 패키지에 있는 App 클래스가 다음 메서드를 호출할 수 있도록 공개한다.
   public void list() {
     System.out.println("[작업 목록]");
-
 
     Task[] list = taskList.toArray(new Task[0]);
 
@@ -149,8 +148,7 @@ public class TaskHandler {
   private Task findByNo(int no) {
     Task[] arr = new Task[taskList.size()];
     taskList.toArray(arr);
-    for (Object obj : arr) {
-      Task task = (Task) obj;
+    for (Task task : arr) {
       if (task.getNo() == no) {
         return task;
       }

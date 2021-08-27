@@ -41,8 +41,8 @@ public class ProjectHandler {
   public void list() {
     System.out.println("[프로젝트 목록]");
 
-    Project[] list = new Project[projectList.size()]; // 배열을 만든 다음에 
-    list = projectList.toArray(list);
+    Project[] list = new Project[projectList.size()];
+    list = projectList.toArray(list); // 혹시 파라미터로 넘겨준 배열이 작을 경우를 대비한다.
 
     for (Project project : list) {
       System.out.printf("%d, %s, %s, %s, %s, [%s]\n",
@@ -140,8 +140,6 @@ public class ProjectHandler {
 
   public Project findByNo(int no) {
     Project[] arr = projectList.toArray(new Project[0]);
-
-    projectList.toArray(arr);
     for (Project project : arr) {
       if (project.getNo() == no) {
         return project;
