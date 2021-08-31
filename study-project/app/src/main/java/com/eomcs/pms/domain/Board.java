@@ -6,11 +6,19 @@ public class Board {
   private int no;
   private String title;
   private String content;
-  private String writer;
+  private Member writer; // 회원 객체를 저장한다. int writer로도 쓴다.
   private Date registeredDate;
   private int viewCount;
   private int like;
 
+
+
+  @Override
+  public String toString() {
+    return "Board [no=" + no + ", title=" + title + ", content=" + content + ", writer=" + writer
+        + ", registeredDate=" + registeredDate + ", viewCount=" + viewCount + ", like=" + like
+        + "]";
+  }
   public int getNo() {
     return no;
   }
@@ -29,12 +37,7 @@ public class Board {
   public void setContent(String content) {
     this.content = content;
   }
-  public String getWriter() {
-    return writer;
-  }
-  public void setWriter(String writer) {
-    this.writer = writer;
-  }
+
   public Date getRegisteredDate() {
     return registeredDate;
   }
@@ -53,4 +56,12 @@ public class Board {
   public void setLike(int like) {
     this.like = like;
   }
+  public Member getWriter() {
+    return writer;
+  }
+  public void setWriter(Member writer) {
+    this.writer = writer;
+  }
+
+
 }

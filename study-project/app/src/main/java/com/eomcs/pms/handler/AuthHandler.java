@@ -8,37 +8,35 @@ public class AuthHandler {
 
   List<Member> memberList;
 
-  static Member loginUser; // 인스턴스 변수를 static으로 만든다.
-  //로그인 정보를 
+  static Member loginUser;
   public static Member getLoginUser() {
     return loginUser;
   }
 
   public AuthHandler(List<Member> memberList) {
     this.memberList = memberList;
+
+
   }
 
-
-  // detail 대신 login으로 바꿈
-  // 2) 로그인을 처리할 핸들러를 정의한다.
   public void login() {
     System.out.println("[로그인]");
+
     String email = Prompt.inputString("이메일? ");
-    String password = Prompt.inputString("암호? ");
+    String password = Prompt.inputString("암호?");
 
     Member member = findByEmailPassword(email, password);
 
     if (member == null) {
       System.out.println("이메일과 암호가 일치하는 회원을 찾을 수 없습니다.");
     } else {
-      System.out.printf("%s님 환영합니다.\n", member.getName());
+      System.out.printf("%s님 환영합니다!\n", member.getName());
       loginUser = member;
     }
   }
 
   public void displayLoginUser() {
-    System.out.println("[내 정보]");
-
+    System.out.println("[내정보]");
 
     if (loginUser == null) {
       System.out.println("로그인 하지 않았습니다.");
@@ -58,7 +56,6 @@ public class AuthHandler {
     loginUser = null;
     System.out.println("로그아웃 하였습니다.");
   }
-
 
   private Member findByEmailPassword(String email, String password) {
     for (Member member : memberList) {
