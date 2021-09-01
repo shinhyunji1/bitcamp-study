@@ -6,12 +6,10 @@ public class Board {
   private int no;
   private String title;
   private String content;
-  private Member writer; // 회원 객체를 저장한다. int writer로도 쓴다.
+  private Member writer;
   private Date registeredDate;
   private int viewCount;
   private int like;
-
-
 
   @Override
   public String toString() {
@@ -19,6 +17,7 @@ public class Board {
         + ", registeredDate=" + registeredDate + ", viewCount=" + viewCount + ", like=" + like
         + "]";
   }
+
   public int getNo() {
     return no;
   }
@@ -37,7 +36,6 @@ public class Board {
   public void setContent(String content) {
     this.content = content;
   }
-
   public Date getRegisteredDate() {
     return registeredDate;
   }
@@ -62,6 +60,5 @@ public class Board {
   public void setWriter(Member writer) {
     this.writer = writer;
   }
-
 
 }
