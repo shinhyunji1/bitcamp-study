@@ -8,8 +8,8 @@ public class MemberListHandler extends AbstractMemberHandler {
   public MemberListHandler(List<Member> memberList) {
     super(memberList);
   }
-
-  public void list() {
+  @Override
+  public void execute() {
     System.out.println("[회원 목록]");
 
     for (Member member : memberList) {

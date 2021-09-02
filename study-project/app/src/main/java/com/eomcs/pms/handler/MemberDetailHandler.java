@@ -9,8 +9,8 @@ public class MemberDetailHandler extends AbstractMemberHandler {
   public MemberDetailHandler(List<Member> memberList) {
     super(memberList);
   }
-
-  public void detail() {
+  @Override
+  public void execute() {
     System.out.println("[회원 상세보기]");
     int no = Prompt.inputInt("번호? ");
 

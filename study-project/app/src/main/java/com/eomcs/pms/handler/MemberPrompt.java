@@ -5,9 +5,13 @@ import java.util.List;
 import com.eomcs.pms.domain.Member;
 import com.eomcs.util.Prompt;
 
-public class MemberPromptHandler extends AbstractMemberHandler {
+public class MemberPrompt{
 
-  public MemberPromptHandler(List<Member> memberList) {
+  // 인스턴스 필드를 자체적으로 관리해야한다. 상속 받았던 걸 지우고 자체적으로 만든다.
+  // 다른 핸들러를 도와주기 위한 것. 이름도 바꾸기! menu일 필요가 없음
+  List<Member> memberList;
+
+  public MemberPrompt(List<Member> memberList) {
     super(memberList);
   }
 
