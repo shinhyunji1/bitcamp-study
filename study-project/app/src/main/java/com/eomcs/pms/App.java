@@ -1,5 +1,8 @@
 package com.eomcs.pms;
 
+import static com.eomcs.menu.Menu.ACCESS_ADMIN;
+import static com.eomcs.menu.Menu.ACCESS_GENERAL;
+import static com.eomcs.menu.Menu.ACCESS_LOGOUT;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -59,17 +62,15 @@ public class App {
     String menuId;
 
     public MenuItem(/*App outer*/String title, String menuId) {
-      this(/*outer*/title, ENABLE_ALL, menuId); // 다른 생성자와 코드와 중복된다면 다른 생성자를 호출하라.
-      //      super(title);
-      //      this.menuId = menuId;
-      //this$0 = outer;
+      super(title);
+      this.menuId = menuId;
     }
 
     // inner 클래스의 생성자를 컴파일할 때
     // 바깥 클래스의 인스턴스를 받는 파라미터가 자동으로 추가된다.
     // 개발자가 따로 파라미터를 추가할 필요가 없다.
-    public MenuItem(String title, int enableState, String menuId) {
-      super(title, enableState);
+    public MenuItem(String title, int accessScope, String menuId) {
+      super(title, accessScope);
       this.menuId = menuId;
       //this$0 = outer;
     }
@@ -78,11 +79,10 @@ public class App {
     public void execute() {
       // inner 클래스는 바깥 클래스의 인스턴스를 내부 필드로 갖고 있기 때문에
       // inner 클래스의 멤버를 마음대로 사용할 수 있다.
-      // 누가 메뉴를 불러오면 execute가 실행되고
+
       // 메뉴가 실행될 때 메뉴 아이디를 사용하여 Map에서 Command 객체를 찾아 실행한다.
-      Command command  = commandMap.get(menuId);
-      //      Command command  = App.this.commandMap.get(menuId);
-      command.
+      Command command = commandMap.get(menuId);
+      command.execute();
     }
   }
 
@@ -125,154 +125,220 @@ public class App {
   }
 
   void service() {
-    createMenu().execute();
+    createMainMenu().execute();
     Prompt.close();
   }
 
-  Menu createMenu() {
+  Menu createMainMenu() {
     MenuGroup mainMenuGroup = new MenuGroup("메인");
     mainMenuGroup.setPrevMenuTitle("종료");
 
-    mainMenuGroup.add(new MenuItem("로그인", Menu.ENABLE_LOGOUT, "/auth/login"));
+    mainMenuGroup.add(new MenuItem("로그인", ACCESS_LOGOUT, "/auth/login"));
+    mainMenuGroup.add(new MenuItem("내정보", ACCESS_GENERAL | ACCESS_ADMIN, "/auth/userinfo"));
+    mainMenuGroup.add(new MenuItem("로그아웃", ACCESS_GENERAL | ACCESS_ADMIN, "/auth/logout"));
 
-    mainMenuGroup.add(new Menu("내정보", Menu.ENABLE_LOGIN) {
-      @Override
-      public void execute() {
-        authUserInfoHandler.execute(); 
-      }
-    });
-
-    mainMenuGroup.add(new Menu("로그아웃", Menu.ENABLE_LOGIN) {
-      @Override
-      public void execute() {
-        authLogoutHandler.execute(); 
-      }
-    });
-
-    MenuGroup boardMenu = new MenuGroup("게시판");
-    mainMenuGroup.add(boardMenu);
-
-    boardMenu.add(new Menu("등록", Menu.ENABLE_LOGIN) {
-      @Override
-      public void execute() {
-        boardAddHandler.execute(); 
-      }});
-    boardMenu.add(new Menu("목록") {
-      @Override
-      public void execute() {
-        boardListHandler.execute(); 
-      }});
-    boardMenu.add(new Menu("상세보기") {
-      @Override
-      public void execute() {
-        boardDetailHandler.execute(); 
-      }});
-    boardMenu.add(new Menu("변경", Menu.ENABLE_LOGIN) {
-      @Override
-      public void execute() {
-        boardUpdateHandler.execute(); 
-      }});
-    boardMenu.add(new Menu("삭제", Menu.ENABLE_LOGIN) {
-      @Override
-      public void execute() {
-        boardDeleteHandler.execute(); 
-      }});
-    boardMenu.add(new Menu("검색") {
-      @Override
-      public void execute() {
-        boardSearchHandler.execute(); 
-      }});
-
-    MenuGroup memberMenu = new MenuGroup("회원");
-    mainMenuGroup.add(memberMenu);
-
-    memberMenu.add(new Menu("등록", Menu.ENABLE_LOGIN) {
-      @Override
-      public void execute() {
-        memberAddHandler.execute(); 
-      }});
-    memberMenu.add(new Menu("목록") {
-      @Override
-      public void execute() {
-        memberListHandler.execute(); 
-      }});
-    memberMenu.add(new Menu("상세보기") {
-      @Override
-      public void execute() {
-        memberDetailHandler.execute(); 
-      }});
-    memberMenu.add(new Menu("변경", Menu.ENABLE_LOGIN) {
-      @Override
-      public void execute() {
-        memberUpdateHandler.execute(); 
-      }});
-    memberMenu.add(new Menu("삭제", Menu.ENABLE_LOGIN) {
-      @Override
-      public void execute() {
-        memberDeleteHandler.execute(); 
-      }});
-
-    MenuGroup projectMenu = new MenuGroup("프로젝트");
-    mainMenuGroup.add(projectMenu);
-
-    projectMenu.add(new Menu("등록", Menu.ENABLE_LOGIN) {
-      @Override
-      public void execute() {
-        projectAddHandler.execute(); 
-      }});
-    projectMenu.add(new Menu("목록") {
-      @Override
-      public void execute() {
-        projectListHandler.execute(); 
-      }});
-    projectMenu.add(new Menu("상세보기") {
-      @Override
-      public void execute() {
-        projectDetailHandler.execute(); 
-      }});
-    projectMenu.add(new Menu("변경", Menu.ENABLE_LOGIN) {
-      @Override
-      public void execute() {
-        projectUpdateHandler.execute(); 
-      }});
-    projectMenu.add(new Menu("삭제", Menu.ENABLE_LOGIN) {
-      @Override
-      public void execute() {
-        projectDeleteHandler.execute(); 
-      }});
-
-    MenuGroup taskMenu = new MenuGroup("작업");
-    mainMenuGroup.add(taskMenu);
-
-    taskMenu.add(new Menu("등록", Menu.ENABLE_LOGIN) {
-      @Override
-      public void execute() {
-        taskAddHandler.execute(); 
-      }});
-    taskMenu.add(new Menu("목록") {
-      @Override
-      public void execute() {
-        taskListHandler.execute(); 
-      }});
-    taskMenu.add(new Menu("상세보기") {
-      @Override
-      public void execute() {
-        taskDetailHandler.execute(); 
-      }});
-    taskMenu.add(new Menu("변경", Menu.ENABLE_LOGIN) {
-      @Override
-      public void execute() {
-        taskUpdateHandler.execute(); 
-      }});
-    taskMenu.add(new Menu("삭제", Menu.ENABLE_LOGIN) {
-      @Override
-      public void execute() {
-        taskDeleteHandler.execute(); 
-      }});
-
+    mainMenuGroup.add(createBoardMenu());
+    mainMenuGroup.add(createMemberMenu());
+    mainMenuGroup.add(createProjectMenu());
+    mainMenuGroup.add(createTaskMenu());
+    mainMenuGroup.add(createAdminMenu());
 
     return mainMenuGroup;
   }
+
+  private Menu createBoardMenu() {
+    MenuGroup boardMenu = new MenuGroup("게시판");
+    boardMenu.add(new MenuItem("등록", ACCESS_GENERAL, "/board/add"));
+    boardMenu.add(new MenuItem("목록", "/board/list"));
+    boardMenu.add(new MenuItem("상세보기", "/board/detail"));
+    boardMenu.add(new MenuItem("변경", ACCESS_GENERAL, "/board/update"));
+    boardMenu.add(new MenuItem("삭제", ACCESS_GENERAL, "/board/delete"));
+    boardMenu.add(new MenuItem("검색", "/board/search"));
+    return boardMenu;
+  }
+
+  private Menu createMemberMenu() {
+    MenuGroup memberMenu = new MenuGroup("회원");
+    memberMenu.add(new MenuItem("등록", ACCESS_GENERAL, "/member/add"));
+    memberMenu.add(new MenuItem("목록", "/member/list"));
+    memberMenu.add(new MenuItem("상세보기", "/member/detail"));
+    memberMenu.add(new MenuItem("변경", ACCESS_GENERAL, "/member/update"));
+    memberMenu.add(new MenuItem("삭제", ACCESS_GENERAL, "/member/delete"));
+    return memberMenu;
+  }
+
+  private Menu createProjectMenu() {
+    MenuGroup projectMenu = new MenuGroup("프로젝트");
+    projectMenu.add(new MenuItem("등록", ACCESS_GENERAL, "/project/add"));
+    projectMenu.add(new MenuItem("목록", "/project/list"));
+    projectMenu.add(new MenuItem("상세보기", "/project/detail"));
+    projectMenu.add(new MenuItem("변경", ACCESS_GENERAL, "/project/update"));
+    projectMenu.add(new MenuItem("삭제", ACCESS_GENERAL, "/project/delete"));
+    return projectMenu;
+  }
+
+  private Menu createTaskMenu() {
+    MenuGroup taskMenu = new MenuGroup("작업");
+    taskMenu.add(new MenuItem("등록", ACCESS_GENERAL, "/task/add"));
+    taskMenu.add(new MenuItem("목록", "/task/list"));
+    taskMenu.add(new MenuItem("상세보기", "/task/detail"));
+    taskMenu.add(new MenuItem("변경", ACCESS_GENERAL, "/task/update"));
+    taskMenu.add(new MenuItem("삭제", ACCESS_GENERAL, "/task/delete"));
+    return taskMenu;
+  }
+
+  private Menu createAdminMenu() {
+    MenuGroup adminMenu = new MenuGroup("관리자", ACCESS_ADMIN);
+    adminMenu.add(new MenuItem("회원 등록", "/member/add"));
+    adminMenu.add(new MenuItem("프로젝트 등록", "/project/add"));
+    adminMenu.add(new MenuItem("작업 등록", "/task/add"));
+    adminMenu.add(new MenuItem("게시글 등록", "/board/add"));
+    return adminMenu;
+  }
+  //  Menu createMenu() {
+  //    MenuGroup mainMenuGroup = new MenuGroup("메인");
+  //    mainMenuGroup.setPrevMenuTitle("종료");
+  //
+  //    mainMenuGroup.add(new MenuItem("로그인", Menu.ENABLE_LOGOUT, "/auth/login"));
+  //
+  //    mainMenuGroup.add(new Menu("내정보", Menu.ENABLE_LOGIN) {
+  //      @Override
+  //      public void execute() {
+  //        authUserInfoHandler.execute(); 
+  //      }
+  //    });
+  //
+  //    mainMenuGroup.add(new Menu("로그아웃", Menu.ENABLE_LOGIN) {
+  //      @Override
+  //      public void execute() {
+  //        authLogoutHandler.execute(); 
+  //      }
+  //    });
+  //
+  //    MenuGroup boardMenu = new MenuGroup("게시판");
+  //    mainMenuGroup.add(boardMenu);
+  //
+  //    boardMenu.add(new Menu("등록", Menu.ENABLE_LOGIN) {
+  //      @Override
+  //      public void execute() {
+  //        boardAddHandler.execute(); 
+  //      }});
+  //    boardMenu.add(new Menu("목록") {
+  //      @Override
+  //      public void execute() {
+  //        boardListHandler.execute(); 
+  //      }});
+  //    boardMenu.add(new Menu("상세보기") {
+  //      @Override
+  //      public void execute() {
+  //        boardDetailHandler.execute(); 
+  //      }});
+  //    boardMenu.add(new Menu("변경", Menu.ENABLE_LOGIN) {
+  //      @Override
+  //      public void execute() {
+  //        boardUpdateHandler.execute(); 
+  //      }});
+  //    boardMenu.add(new Menu("삭제", Menu.ENABLE_LOGIN) {
+  //      @Override
+  //      public void execute() {
+  //        boardDeleteHandler.execute(); 
+  //      }});
+  //    boardMenu.add(new Menu("검색") {
+  //      @Override
+  //      public void execute() {
+  //        boardSearchHandler.execute(); 
+  //      }});
+  //
+  //    MenuGroup memberMenu = new MenuGroup("회원");
+  //    mainMenuGroup.add(memberMenu);
+  //
+  //    memberMenu.add(new Menu("등록", Menu.ENABLE_LOGIN) {
+  //      @Override
+  //      public void execute() {
+  //        memberAddHandler.execute(); 
+  //      }});
+  //    memberMenu.add(new Menu("목록") {
+  //      @Override
+  //      public void execute() {
+  //        memberListHandler.execute(); 
+  //      }});
+  //    memberMenu.add(new Menu("상세보기") {
+  //      @Override
+  //      public void execute() {
+  //        memberDetailHandler.execute(); 
+  //      }});
+  //    memberMenu.add(new Menu("변경", Menu.ENABLE_LOGIN) {
+  //      @Override
+  //      public void execute() {
+  //        memberUpdateHandler.execute(); 
+  //      }});
+  //    memberMenu.add(new Menu("삭제", Menu.ENABLE_LOGIN) {
+  //      @Override
+  //      public void execute() {
+  //        memberDeleteHandler.execute(); 
+  //      }});
+  //
+  //    MenuGroup projectMenu = new MenuGroup("프로젝트");
+  //    mainMenuGroup.add(projectMenu);
+  //
+  //    projectMenu.add(new Menu("등록", Menu.ENABLE_LOGIN) {
+  //      @Override
+  //      public void execute() {
+  //        projectAddHandler.execute(); 
+  //      }});
+  //    projectMenu.add(new Menu("목록") {
+  //      @Override
+  //      public void execute() {
+  //        projectListHandler.execute(); 
+  //      }});
+  //    projectMenu.add(new Menu("상세보기") {
+  //      @Override
+  //      public void execute() {
+  //        projectDetailHandler.execute(); 
+  //      }});
+  //    projectMenu.add(new Menu("변경", Menu.ENABLE_LOGIN) {
+  //      @Override
+  //      public void execute() {
+  //        projectUpdateHandler.execute(); 
+  //      }});
+  //    projectMenu.add(new Menu("삭제", Menu.ENABLE_LOGIN) {
+  //      @Override
+  //      public void execute() {
+  //        projectDeleteHandler.execute(); 
+  //      }});
+  //
+  //    MenuGroup taskMenu = new MenuGroup("작업");
+  //    mainMenuGroup.add(taskMenu);
+  //
+  //    taskMenu.add(new Menu("등록", Menu.ENABLE_LOGIN) {
+  //      @Override
+  //      public void execute() {
+  //        taskAddHandler.execute(); 
+  //      }});
+  //    taskMenu.add(new Menu("목록") {
+  //      @Override
+  //      public void execute() {
+  //        taskListHandler.execute(); 
+  //      }});
+  //    taskMenu.add(new Menu("상세보기") {
+  //      @Override
+  //      public void execute() {
+  //        taskDetailHandler.execute(); 
+  //      }});
+  //    taskMenu.add(new Menu("변경", Menu.ENABLE_LOGIN) {
+  //      @Override
+  //      public void execute() {
+  //        taskUpdateHandler.execute(); 
+  //      }});
+  //    taskMenu.add(new Menu("삭제", Menu.ENABLE_LOGIN) {
+  //      @Override
+  //      public void execute() {
+  //        taskDeleteHandler.execute(); 
+  //      }});
+  //
+  //
+  //    return mainMenuGroup;
+  //  }
 }
 
 
