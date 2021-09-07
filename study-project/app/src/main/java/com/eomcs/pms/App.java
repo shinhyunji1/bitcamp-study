@@ -3,6 +3,7 @@ package com.eomcs.pms;
 import static com.eomcs.menu.Menu.ACCESS_ADMIN;
 import static com.eomcs.menu.Menu.ACCESS_GENERAL;
 import static com.eomcs.menu.Menu.ACCESS_LOGOUT;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -119,14 +120,63 @@ public class App {
     commandMap.put("/task/update", new TaskUpdateHandler(projectPrompt));
     commandMap.put("/task/delete", new TaskDeleteHandler(projectPrompt));
 
-    commandMap.put("/auth/add", new AuthLoginHandler(memberList));
-    commandMap.put("/auth/list", new AuthLogoutHandler());
-    commandMap.put("/auth/detail", new AuthUserInfoHandler());
+    commandMap.put("/auth/login", new AuthLoginHandler(memberList));
+    commandMap.put("/auth/logout", new AuthLogoutHandler());
+    commandMap.put("/auth/userinfo", new AuthUserInfoHandler());
   }
 
   void service() {
     createMainMenu().execute();
     Prompt.close();
+
+    // 게시글 데이터를 파일로 내보내기(저장하기, 쓰기)
+    try (FileOutputStream out = new FileOutputStream("board.data")) {
+      for (Board board : boardList) {
+        out.write(board.getNo() >> 24);
+        out.write(board.getNo() >> 16);
+        out.write(board.getNo() >> 8);
+        out.write(board.getNo());
+
+        // 2) 게시글 제목
+        byte[] bytes = board.getTitle().getBytes("UTF-8");
+        out.write(bytes.length >> 8); // 바이트의 개수를 2바이트로 먼저 출력한다.
+        out.write(bytes.length); // 바이트의 개수를 2바이트로 먼저 출력한다.
+        out.write(bytes); // 그런 후에 바이트를 출력한다.
+
+        // 3) 게시글 내용 출력
+        bytes = board.getContent().getBytes("UTF-8");
+        out.write(bytes.length >> 8);// 2바이트로 바이트 배열의 크기를 먼저 출력한다.
+        out.write(bytes.length);
+        out.write(bytes); // 그런 후에 바이트를 출력한다.
+
+        // 4) 게시글 등록일 출력 (날자를 문자열로 !)
+        String dateStr = board.getRegisteredDate().toString(); // "2021-09-07" 10바이트
+        bytes = dateStr.getBytes("UTF-8");
+        out.write(bytes.length >> 8);
+        out.write(bytes.length);
+        out.write(bytes);
+
+        // 5) 게시글 조회수 출력
+        out.write(board.getViewCount() >> 24);
+        out.write(board.getViewCount() >> 16);
+        out.write(board.getViewCount() >> 8);
+        out.write(board.getViewCount());
+
+        // 6) 게시글 작성자 번호 출력
+        out.write(board.getWriter().getNo() >> 24);
+        out.write(board.getWriter().getNo() >> 16);
+        out.write(board.getWriter().getNo() >> 8);
+        out.write(board.getWriter().getNo());
+
+        // 7) 게시글 작성자 이름 출력 (제목과 비슷)
+        bytes = board.getWriter().getName().getBytes("UTF-8");
+        out.write(bytes.length >> 8); // 바이트의 개수를 2바이트로 먼저 출력한다.
+        out.write(bytes.length); // 바이트의 개수를 2바이트로 먼저 출력한다.
+        out.write(bytes); // 그런 후에 바이트를 출력한다.
+      }
+    } catch (Exception e) {
+      System.out.println("게시글을 파일에 저장 중 오류 발생!");
+    }
   }
 
   Menu createMainMenu() {
@@ -154,6 +204,7 @@ public class App {
     boardMenu.add(new MenuItem("변경", ACCESS_GENERAL, "/board/update"));
     boardMenu.add(new MenuItem("삭제", ACCESS_GENERAL, "/board/delete"));
     boardMenu.add(new MenuItem("검색", "/board/search"));
+
     return boardMenu;
   }
 
