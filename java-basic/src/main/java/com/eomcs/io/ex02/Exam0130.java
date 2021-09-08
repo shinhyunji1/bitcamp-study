@@ -18,7 +18,7 @@ public class Exam0130 {
         System.out.printf("%02x ", b);
       }
      */
-    while ((b = in.read()) != -1) {
+    while ((b = in.read()) != -1) { // 변수로 받아서 출력하겠다.
       System.out.printf("%02x ", b);
     }
 
