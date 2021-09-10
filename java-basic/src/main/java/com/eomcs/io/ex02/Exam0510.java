@@ -33,7 +33,7 @@ public class Exam0510 {
     //
     // JVM에 문자를 입출력할 때 사용하는 기본 문자 집합이 무엇인지 알아 본다.
     System.out.printf("file.encoding=%s\n", System.getProperty("file.encoding"));
-    byte[] bytes = str.getBytes(); 
+    byte[] bytes = str.getBytes(); // getBytes대신 Exam0514처럼 정확하게 입력하는 것이 좋다.
     // 이클립스: UCS2 ==> UTF-8
     // Windows: UCS2 ==> MS949
     // Linux: UCS2 ==> UTF-8

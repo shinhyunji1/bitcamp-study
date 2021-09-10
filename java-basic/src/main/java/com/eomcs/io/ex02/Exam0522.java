@@ -17,7 +17,7 @@ public class Exam0522 {
 
     in.close();
 
-    String str = new String(buf, 0, count);
+    String str = new String(buf, 0, count); // 인코딩을 지정하지 않아 깨진다.
     System.out.println(str);
 
     // ms949.txt 파일을 읽을 때 문자가 깨지는 이유?

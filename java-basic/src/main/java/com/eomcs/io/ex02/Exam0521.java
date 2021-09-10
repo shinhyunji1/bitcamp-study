@@ -14,7 +14,7 @@ public class Exam0521 {
     // 파일의 데이터를 한 번에 읽어보자.
     byte[] buf = new byte[1000]; 
     int count = in.read(buf); // <== 41 42 ea b0 80 ea b0 81 (AB가각)
-
+    // 읽은 개수 8개
     in.close();
 
     // 읽은 바이트 수를 출력해보자.
@@ -25,7 +25,7 @@ public class Exam0521 {
     //   JVM이 사용하는 문자 집합(UCS2=UTF16BE)의 코드 값으로 변환한다.
     // - 바이트 배열에 들어 있는 코드 값이 어떤 문자 집합의 값인지 알려주지 않는다면,
     //   JVM 환경 변수 file.encoding에 설정된 문자 집합으로 가정하고 변환을 수행한다.
-    String str = new String(buf, 0, count); 
+    String str = new String(buf, 0, count);  // 0번째부터 8개 읽어라
 
     System.out.println(str);
 
