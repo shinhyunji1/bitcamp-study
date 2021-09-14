@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Score1 implements Serializable {
   private static final long serialVersionUID = 1L;
-  
+
   protected String name;
   protected int kor;
   protected int eng;
@@ -21,8 +21,8 @@ public class Score1 implements Serializable {
     return "Score1 [name=" + name + ", kor=" + kor + ", eng=" + eng + ", math=" + math + ", sum="
         + sum + ", aver=" + aver + "]";
   }
-  
-  
+
+  // getter/setter 따로 없음
 }
 
 
