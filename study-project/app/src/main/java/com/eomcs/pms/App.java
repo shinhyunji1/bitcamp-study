@@ -3,6 +3,8 @@ package com.eomcs.pms;
 import static com.eomcs.menu.Menu.ACCESS_ADMIN;
 import static com.eomcs.menu.Menu.ACCESS_GENERAL;
 import static com.eomcs.menu.Menu.ACCESS_LOGOUT;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -131,36 +133,49 @@ public class App {
   void service() {
     // 파일에서 게시글 데이터를 가져오기(로딩하기, 읽기)
 
-    loadBoards();
+    loadObjects("board.date3", boardList);
+    loadObjects("member.date3", memberList);
+    loadObjects("project.date3", projectList);
 
     createMainMenu().execute();
     Prompt.close();
 
-    saveBoards();
+    saveObjects("board.date3", boardList);
+    saveObjects("member.date3", memberList);
+    saveObjects("project.date3", projectList);
   }
 
   @SuppressWarnings("unchecked")
-  private void loadBoards() {
-    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("board.data"))) {
+  private <E> void loadObjects(String filepath, List<E> list) { //E 는 클래스가 아니라 데이터 타입인다.
+    try (ObjectInputStream in = new ObjectInputStream(
+        new BufferedInputStream(
+            new FileInputStream(filepath)))) {
 
-      boardList.addAll((List<Board>)in.readObject());
-      System.out.println("게시글 로딩 완료!");
+      list.addAll((List<E>) in.readObject());
 
-    } catch(Exception e) {
-      System.out.println("게시글을 파일에 저장 중 오류 발생!");
-    }
-  }
-  private void saveBoards() {
-    // 게시글 데이터를 파일로 내보내기(저장하기, 쓰기)
-    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("board.data3"));) {
+      System.out.printf("%s 파일 로딩 완료!\n", filepath);
 
-      out.writeObject(boardList);
-
-      System.out.println("게시글 저장 완료!");
     } catch (Exception e) {
-      System.out.println("게시글을 파일에 저장 중 오류 발생!");
+      System.out.printf("%s 파일에서 데이터를 읽어 오는 중 오류 발생!\n", filepath);
+      e.printStackTrace();
     }
   }
+
+  private <E> void saveObjects(String filepath, List<E> list) {
+    try (ObjectOutputStream out = new ObjectOutputStream(
+        new BufferedOutputStream(
+            new FileOutputStream(filepath)))) {
+
+      out.writeObject(list);
+
+      System.out.printf("%s 파일 저장 완료!\n", filepath);
+
+    } catch (Exception e) {
+      System.out.printf("%s 파일에 데이터를 파일에 저장 중 오류 발생!\n", filepath);
+      e.printStackTrace();
+    }
+  }
+
 
   Menu createMainMenu() {
     MenuGroup mainMenuGroup = new MenuGroup("메인");
