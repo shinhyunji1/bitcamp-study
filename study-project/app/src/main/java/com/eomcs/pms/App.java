@@ -3,12 +3,13 @@ package com.eomcs.pms;
 import static com.eomcs.menu.Menu.ACCESS_ADMIN;
 import static com.eomcs.menu.Menu.ACCESS_GENERAL;
 import static com.eomcs.menu.Menu.ACCESS_LOGOUT;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -47,51 +48,36 @@ import com.eomcs.pms.handler.TaskListHandler;
 import com.eomcs.pms.handler.TaskUpdateHandler;
 import com.eomcs.util.Prompt;
 
+
 public class App {
   List<Board> boardList = new ArrayList<>();
   List<Member> memberList = new LinkedList<>();
   List<Project> projectList = new ArrayList<>();
 
   HashMap<String,Command> commandMap = new HashMap<>();
+
   MemberPrompt memberPrompt = new MemberPrompt(memberList);
   ProjectPrompt projectPrompt = new ProjectPrompt(projectList);
 
-  // 이너 클래스 : Menu 추상 클래스를 상속 받아서 PMS 시스템에 맞게 기능을 추가한다.
   class MenuItem extends Menu {
-
-    // inner 클래스는 컴파일할 때 바깥 클래스의 인스턴스를 저장할 필드가 자동 생성된다.
-    // 개발자가 따로 선언할 필요가 없다.
-    // 예) App this$1;
-
-    // 1) 메뉴의 ID를 저장할 필드를 선언한다.
-    // - 이 메뉴 아이디는 커맨드 객첼를 찾을 때 사용할 것이다.
     String menuId;
 
-    public MenuItem(/*App outer*/String title, String menuId) {
+    public MenuItem(String title, String menuId) {
       super(title);
       this.menuId = menuId;
     }
 
-    // inner 클래스의 생성자를 컴파일할 때
-    // 바깥 클래스의 인스턴스를 받는 파라미터가 자동으로 추가된다.
-    // 개발자가 따로 파라미터를 추가할 필요가 없다.
     public MenuItem(String title, int accessScope, String menuId) {
       super(title, accessScope);
       this.menuId = menuId;
-      //this$0 = outer;
     }
 
     @Override
     public void execute() {
-      // inner 클래스는 바깥 클래스의 인스턴스를 내부 필드로 갖고 있기 때문에
-      // inner 클래스의 멤버를 마음대로 사용할 수 있다.
-
-      // 메뉴가 실행될 때 메뉴 아이디를 사용하여 Map에서 Command 객체를 찾아 실행한다.
       Command command = commandMap.get(menuId);
       command.execute();
     }
   }
-
 
   public static void main(String[] args) {
     App app = new App(); 
@@ -99,7 +85,6 @@ public class App {
   }
 
   public App() {
-    //생성자를 준비한다.
     commandMap.put("/board/add", new BoardAddHandler(boardList));
     commandMap.put("/board/list", new BoardListHandler(boardList));
     commandMap.put("/board/detail", new BoardDetailHandler(boardList));
@@ -131,59 +116,77 @@ public class App {
   }
 
   void service() {
-    // 파일에서 게시글 데이터를 가져오기(로딩하기, 읽기)
 
-    loadObjects("board.date3", boardList);
-    loadObjects("member.date3", memberList);
-    loadObjects("project.date3", projectList);
+    // CSV 형식으로 저장된 게시글 데이터를 파일에서 읽어 객체에 담는다. 
+    try (BufferedReader in = new BufferedReader(
+
+        new FileReader("board.csv", Charset.forName("UTF-8")))) {
+
+      String csvStr = null;
+      while ((csvStr = in.readLine()) != null) {
+
+        // 1) 한 줄의 문자열을 콤마(,)로 분리한다.
+        String[] values = csvStr.split(",");
+
+        // 2) 콤마로 분리한 값을 Board 객체에 담는다.
+        Board b = new Board();
+        b.setNo(Integer.valueOf(values[0]));
+        b.setTitle(values[1]);
+        b.setContent(values[2]);
+        b.setRegisteredDate(Date.valueOf(values[3]));
+        b.setViewCount(Integer.valueOf(values[4]));
+        b.setLike(Integer.valueOf(values[5]));
+
+        // 3) 게시글을 작성한 회원 정보를 Member 객체에 담는다.
+        Member m = new Member();
+        m.setNo(Integer.valueOf(values[6]));
+        m.setName(values[7]);
+
+        // 4) Member 객체를 Board 객체의 작성자 필드에 저장한다.
+        b.setWriter(m);
+
+        // 5) 게시글 객체를 boardList 에 저장한다.
+        boardList.add(b);
+      }
+
+      System.out.println("게시글 데이터 로딩 완료!");
+
+    } catch (Exception e) {
+      System.out.println("게시글 데이터 로딩 오류!");
+    }
 
     createMainMenu().execute();
     Prompt.close();
 
-    saveObjects("board.date3", boardList);
-    saveObjects("member.date3", memberList);
-    saveObjects("project.date3", projectList);
-  }
-
-  @SuppressWarnings("unchecked")
-  private <E> void loadObjects(String filepath, List<E> list) { //E 는 클래스가 아니라 데이터 타입인다.
-    try (ObjectInputStream in = new ObjectInputStream(
-        new BufferedInputStream(
-            new FileInputStream(filepath)))) {
-
-      list.addAll((List<E>) in.readObject());
-
-      System.out.printf("%s 파일 로딩 완료!\n", filepath);
-
-    } catch (Exception e) {
-      System.out.printf("%s 파일에서 데이터를 읽어 오는 중 오류 발생!\n", filepath);
-      e.printStackTrace();
-    }
-  }
-
-  private <E> void saveObjects(String filepath, List<E> list) {
-    try (ObjectOutputStream out = new ObjectOutputStream(
-        new BufferedOutputStream(
-            new FileOutputStream(filepath)))) {
-
-      out.writeObject(list);
-
-      System.out.printf("%s 파일 저장 완료!\n", filepath);
+    // 게시글 데이터를 CSV 형식으로 출력한다.
+    try (PrintWriter out = new PrintWriter(
+        new BufferedWriter(
+            new FileWriter("board.csv", Charset.forName("UTF-8"))));) {
+      for (Board board : boardList) {
+        out.printf("%d,%s,%s,%s,%d,%d,%d,%s\n",
+            board.getNo(),
+            board.getTitle(),
+            board.getContent(),
+            board.getRegisteredDate(),
+            board.getViewCount(),
+            board.getLike(),
+            board.getWriter().getNo(),
+            board.getWriter().getName());
+      }
+      System.out.println("게시글 데이터 출력 완료!");
 
     } catch (Exception e) {
-      System.out.printf("%s 파일에 데이터를 파일에 저장 중 오류 발생!\n", filepath);
-      e.printStackTrace();
+      System.out.println("게시글 데이터 출력 오류!");
     }
   }
-
 
   Menu createMainMenu() {
     MenuGroup mainMenuGroup = new MenuGroup("메인");
     mainMenuGroup.setPrevMenuTitle("종료");
 
-    mainMenuGroup.add(new MenuItem("로그인", ACCESS_LOGOUT, "/auth/login"));
-    mainMenuGroup.add(new MenuItem("내정보", ACCESS_GENERAL | ACCESS_ADMIN, "/auth/userinfo"));
-    mainMenuGroup.add(new MenuItem("로그아웃", ACCESS_GENERAL | ACCESS_ADMIN, "/auth/logout"));
+    mainMenuGroup.add(new MenuItem("로그인", ACCESS_LOGOUT , "/auth/login"));
+    mainMenuGroup.add(new MenuItem("내정보", ACCESS_GENERAL, "/auth/userinfo"));
+    mainMenuGroup.add(new MenuItem("로그아웃", ACCESS_GENERAL, "/auth/logout"));
 
     mainMenuGroup.add(createBoardMenu());
     mainMenuGroup.add(createMemberMenu());
@@ -202,7 +205,6 @@ public class App {
     boardMenu.add(new MenuItem("변경", ACCESS_GENERAL, "/board/update"));
     boardMenu.add(new MenuItem("삭제", ACCESS_GENERAL, "/board/delete"));
     boardMenu.add(new MenuItem("검색", "/board/search"));
-
     return boardMenu;
   }
 
@@ -244,150 +246,6 @@ public class App {
     adminMenu.add(new MenuItem("게시글 등록", "/board/add"));
     return adminMenu;
   }
-  //  Menu createMenu() {
-  //    MenuGroup mainMenuGroup = new MenuGroup("메인");
-  //    mainMenuGroup.setPrevMenuTitle("종료");
-  //
-  //    mainMenuGroup.add(new MenuItem("로그인", Menu.ENABLE_LOGOUT, "/auth/login"));
-  //
-  //    mainMenuGroup.add(new Menu("내정보", Menu.ENABLE_LOGIN) {
-  //      @Override
-  //      public void execute() {
-  //        authUserInfoHandler.execute(); 
-  //      }
-  //    });
-  //
-  //    mainMenuGroup.add(new Menu("로그아웃", Menu.ENABLE_LOGIN) {
-  //      @Override
-  //      public void execute() {
-  //        authLogoutHandler.execute(); 
-  //      }
-  //    });
-  //
-  //    MenuGroup boardMenu = new MenuGroup("게시판");
-  //    mainMenuGroup.add(boardMenu);
-  //
-  //    boardMenu.add(new Menu("등록", Menu.ENABLE_LOGIN) {
-  //      @Override
-  //      public void execute() {
-  //        boardAddHandler.execute(); 
-  //      }});
-  //    boardMenu.add(new Menu("목록") {
-  //      @Override
-  //      public void execute() {
-  //        boardListHandler.execute(); 
-  //      }});
-  //    boardMenu.add(new Menu("상세보기") {
-  //      @Override
-  //      public void execute() {
-  //        boardDetailHandler.execute(); 
-  //      }});
-  //    boardMenu.add(new Menu("변경", Menu.ENABLE_LOGIN) {
-  //      @Override
-  //      public void execute() {
-  //        boardUpdateHandler.execute(); 
-  //      }});
-  //    boardMenu.add(new Menu("삭제", Menu.ENABLE_LOGIN) {
-  //      @Override
-  //      public void execute() {
-  //        boardDeleteHandler.execute(); 
-  //      }});
-  //    boardMenu.add(new Menu("검색") {
-  //      @Override
-  //      public void execute() {
-  //        boardSearchHandler.execute(); 
-  //      }});
-  //
-  //    MenuGroup memberMenu = new MenuGroup("회원");
-  //    mainMenuGroup.add(memberMenu);
-  //
-  //    memberMenu.add(new Menu("등록", Menu.ENABLE_LOGIN) {
-  //      @Override
-  //      public void execute() {
-  //        memberAddHandler.execute(); 
-  //      }});
-  //    memberMenu.add(new Menu("목록") {
-  //      @Override
-  //      public void execute() {
-  //        memberListHandler.execute(); 
-  //      }});
-  //    memberMenu.add(new Menu("상세보기") {
-  //      @Override
-  //      public void execute() {
-  //        memberDetailHandler.execute(); 
-  //      }});
-  //    memberMenu.add(new Menu("변경", Menu.ENABLE_LOGIN) {
-  //      @Override
-  //      public void execute() {
-  //        memberUpdateHandler.execute(); 
-  //      }});
-  //    memberMenu.add(new Menu("삭제", Menu.ENABLE_LOGIN) {
-  //      @Override
-  //      public void execute() {
-  //        memberDeleteHandler.execute(); 
-  //      }});
-  //
-  //    MenuGroup projectMenu = new MenuGroup("프로젝트");
-  //    mainMenuGroup.add(projectMenu);
-  //
-  //    projectMenu.add(new Menu("등록", Menu.ENABLE_LOGIN) {
-  //      @Override
-  //      public void execute() {
-  //        projectAddHandler.execute(); 
-  //      }});
-  //    projectMenu.add(new Menu("목록") {
-  //      @Override
-  //      public void execute() {
-  //        projectListHandler.execute(); 
-  //      }});
-  //    projectMenu.add(new Menu("상세보기") {
-  //      @Override
-  //      public void execute() {
-  //        projectDetailHandler.execute(); 
-  //      }});
-  //    projectMenu.add(new Menu("변경", Menu.ENABLE_LOGIN) {
-  //      @Override
-  //      public void execute() {
-  //        projectUpdateHandler.execute(); 
-  //      }});
-  //    projectMenu.add(new Menu("삭제", Menu.ENABLE_LOGIN) {
-  //      @Override
-  //      public void execute() {
-  //        projectDeleteHandler.execute(); 
-  //      }});
-  //
-  //    MenuGroup taskMenu = new MenuGroup("작업");
-  //    mainMenuGroup.add(taskMenu);
-  //
-  //    taskMenu.add(new Menu("등록", Menu.ENABLE_LOGIN) {
-  //      @Override
-  //      public void execute() {
-  //        taskAddHandler.execute(); 
-  //      }});
-  //    taskMenu.add(new Menu("목록") {
-  //      @Override
-  //      public void execute() {
-  //        taskListHandler.execute(); 
-  //      }});
-  //    taskMenu.add(new Menu("상세보기") {
-  //      @Override
-  //      public void execute() {
-  //        taskDetailHandler.execute(); 
-  //      }});
-  //    taskMenu.add(new Menu("변경", Menu.ENABLE_LOGIN) {
-  //      @Override
-  //      public void execute() {
-  //        taskUpdateHandler.execute(); 
-  //      }});
-  //    taskMenu.add(new Menu("삭제", Menu.ENABLE_LOGIN) {
-  //      @Override
-  //      public void execute() {
-  //        taskDeleteHandler.execute(); 
-  //      }});
-  //
-  //
-  //    return mainMenuGroup;
-  //  }
 }
 
 

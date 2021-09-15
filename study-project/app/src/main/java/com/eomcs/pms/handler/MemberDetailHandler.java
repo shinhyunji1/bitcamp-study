@@ -9,6 +9,7 @@ public class MemberDetailHandler extends AbstractMemberHandler {
   public MemberDetailHandler(List<Member> memberList) {
     super(memberList);
   }
+
   @Override
   public void execute() {
     System.out.println("[회원 상세보기]");

@@ -36,7 +36,7 @@ public class TaskAddHandler extends AbstractTaskHandler {
     if (task.getOwner() == null) {
       System.out.println("작업 등록을 취소합니다.");
       return; 
-    }// 특정 멤버를 사용하기 위해서.
+    }
 
     project.getTasks().add(task);
 

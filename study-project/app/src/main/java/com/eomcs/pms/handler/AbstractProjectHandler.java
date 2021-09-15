@@ -11,7 +11,6 @@ public abstract class AbstractProjectHandler implements Command {
     this.projectList = projectList;
   }
 
-
   protected Project findByNo(int no) {
     for (Project project : projectList) {
       if (project.getNo() == no) {
@@ -20,8 +19,6 @@ public abstract class AbstractProjectHandler implements Command {
     }
     return null;
   }
-
-
 }
 
 

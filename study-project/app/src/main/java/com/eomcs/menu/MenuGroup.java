@@ -15,7 +15,8 @@ public class MenuGroup extends Menu {
   // 모든 메뉴가 공유할 객체이기 때문에 스태틱 멤버로 선언한다.
   static Stack<Menu> breadCrumb = new Stack<>();
 
-  ArrayList<Menu> childs = new ArrayList<>(); //배열 대신 리스트로 개선한다.
+  ArrayList<Menu> childs = new ArrayList<>();
+
   boolean disablePrevMenu;
   String prevMenuTitle = "이전 메뉴";
 
@@ -30,11 +31,6 @@ public class MenuGroup extends Menu {
   }
   static PrevMenu prevMenu = new PrevMenu();
 
-  // 생성자를 정의하지 않으면 컴파일러가 기본 생성자를 자동으로 추가해 준다.
-  // 문제는 컴파일러가 추가한 기본 생성자는 수퍼 클래스의 기본 생성자를 호출하기 때문에
-  // 컴파일 오류가 발생한다. 
-  // Menu 클래스에는 기본 생성자가 없다. 
-  // 따라서 개발자가 직접 생성자를 정의해야 한다.
   public MenuGroup(String title) {
     super(title);
   }
@@ -64,12 +60,10 @@ public class MenuGroup extends Menu {
 
   // 배열에 들어 있는 Menu 객체를 찾아 제거한다.
   public Menu remove(Menu child) {
-    if (childs.remove(child)) {
-      return child; 
-    }
+    if (childs.remove(child)) 
+      return child;
     return null;
   }
-  //인덱스, ㅇㅇ 지웠음
 
   @Override // 컴파일러에게 오버라이딩을 제대로 하는지 조사해 달라고 요구한다.
   public void execute() {
@@ -129,10 +123,9 @@ public class MenuGroup extends Menu {
     ArrayList<Menu> menuList = new ArrayList<>();
     for (Menu menu : childs) {
       // 사용자가 해당 메뉴에 접근 할 수 있는지 검사한다.
-      // 예) 메뉴의 접근 범위 :  0100   = 관리자만 접근 가능
-      //    사용자의 접근 수준 : 0110   = 관리자 및 일반 메뉴 접근 가능
-      // 
-      if ((menu.accessScope & AuthLoginHandler.getUserAccessLevel()) > 0) {
+      //    예) 메뉴의 접근 범위:   0100  = 관리자만 접근 가능   
+      //        사용자의 접근 수준: 0110  = 관리자 및 일반 메뉴 접근 가능
+      if ((menu.accessScope & AuthLoginHandler.getUserAccessLevel()) > 0 ) {
         menuList.add(menu);
       } 
     }

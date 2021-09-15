@@ -12,10 +12,7 @@ public abstract class AbstractTaskHandler implements Command {
     this.projectPrompt = projectPrompt;
   }
 
-  // 인스턴스 필드를 쓴다면 인스턴스 메서드로 리턴받는다.
-  // 인스턴스 필드를 안쓰고 파라미터로 받은 값을 리턴만 한다. 그래서 static으로 만든다.
-  // 
-  public static void printTasks(Project project) {
+  protected static void printTasks(Project project) {
     System.out.printf("%s:\n\n", project.getTitle());
     for (Task task : project.getTasks()) {
       System.out.printf("%d, %s, %s, %s, %s\n",
@@ -50,9 +47,6 @@ public abstract class AbstractTaskHandler implements Command {
     System.out.println("2: 완료");
     return Prompt.inputInt("> ");
   }
-
-
-
 }
 
 

@@ -28,7 +28,6 @@ public class ProjectDetailHandler extends AbstractProjectHandler {
     System.out.printf("종료일: %s\n", project.getEndDate());
     System.out.printf("만든이: %s\n", project.getOwner().getName());
     System.out.printf("팀원: %s\n", project.getMemberNames());
-    //프로젝트의 멤버 목록에서 이름뽑아서 줘! 훨씬 직관적이다.
   }
 }
 

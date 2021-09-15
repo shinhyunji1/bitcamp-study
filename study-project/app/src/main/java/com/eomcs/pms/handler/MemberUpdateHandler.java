@@ -9,6 +9,7 @@ public class MemberUpdateHandler extends AbstractMemberHandler {
   public MemberUpdateHandler(List<Member> memberList) {
     super(memberList);
   }
+
   @Override
   public void execute() {
     System.out.println("[회원 변경]");

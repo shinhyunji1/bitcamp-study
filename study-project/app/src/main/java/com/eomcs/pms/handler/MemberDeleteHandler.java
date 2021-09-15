@@ -9,6 +9,7 @@ public class MemberDeleteHandler extends AbstractMemberHandler {
   public MemberDeleteHandler(List<Member> memberList) {
     super(memberList);
   }
+
   @Override
   public void execute() {
     System.out.println("[회원 삭제]");

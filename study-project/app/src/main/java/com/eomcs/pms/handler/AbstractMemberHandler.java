@@ -19,7 +19,6 @@ public abstract class AbstractMemberHandler implements Command {
     }
     return null;
   }
-
 }
 
 

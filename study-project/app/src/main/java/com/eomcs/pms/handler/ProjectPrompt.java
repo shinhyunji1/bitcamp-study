@@ -5,14 +5,13 @@ import com.eomcs.pms.domain.Project;
 import com.eomcs.util.Prompt;
 
 public class ProjectPrompt {
+
   protected List<Project> projectList;
 
   public ProjectPrompt(List<Project> projectList) {
     this.projectList = projectList;
   }
 
-  //task 핸들러에서 쓰는 것 서브클래스에서 쓰는 것이 아님!
-  // 그래서 다른 클래스 생성해서 분리하겠다!
   public Project promptProject() {
     System.out.println("프로젝트:");
     for (Project project : projectList) {

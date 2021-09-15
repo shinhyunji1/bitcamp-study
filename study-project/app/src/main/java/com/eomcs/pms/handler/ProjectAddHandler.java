@@ -62,7 +62,7 @@ public class ProjectAddHandler extends AbstractProjectHandler {
     project.setEndDate(Prompt.inputDate("종료일? "));
     project.setOwner(AuthLoginHandler.getLoginUser());
     project.setMembers(memberPrompt.promptMembers("팀원?(완료: 빈 문자열) "));
-    //모든 멤버 중에서 여러명을 선택
+
     projectList.add(project);
 
     System.out.println("프로젝트를 저장했습니다!");
