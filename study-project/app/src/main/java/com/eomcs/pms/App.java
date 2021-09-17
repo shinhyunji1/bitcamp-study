@@ -8,9 +8,10 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.nio.charset.Charset;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,6 +30,7 @@ import com.eomcs.pms.handler.BoardListHandler;
 import com.eomcs.pms.handler.BoardSearchHandler;
 import com.eomcs.pms.handler.BoardUpdateHandler;
 import com.eomcs.pms.handler.Command;
+import com.eomcs.pms.handler.CommandRequest;
 import com.eomcs.pms.handler.MemberAddHandler;
 import com.eomcs.pms.handler.MemberDeleteHandler;
 import com.eomcs.pms.handler.MemberDetailHandler;
@@ -47,6 +49,8 @@ import com.eomcs.pms.handler.TaskDetailHandler;
 import com.eomcs.pms.handler.TaskListHandler;
 import com.eomcs.pms.handler.TaskUpdateHandler;
 import com.eomcs.util.Prompt;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 
 public class App {
@@ -55,6 +59,8 @@ public class App {
   List<Project> projectList = new ArrayList<>();
 
   HashMap<String,Command> commandMap = new HashMap<>();
+
+
 
   MemberPrompt memberPrompt = new MemberPrompt(memberList);
   ProjectPrompt projectPrompt = new ProjectPrompt(projectList);
@@ -75,7 +81,12 @@ public class App {
     @Override
     public void execute() {
       Command command = commandMap.get(menuId);
-      command.execute();
+      try {
+        command.execute(new CommandRequest(commandMap));
+      } catch (Exception e) {
+        System.out.printf("%s 명령을 실행하는 중 오류 발생!\n", menuId);
+        e.printStackTrace();
+      }
     }
   }
 
@@ -85,11 +96,12 @@ public class App {
   }
 
   public App() {
+
     commandMap.put("/board/add", new BoardAddHandler(boardList));
     commandMap.put("/board/list", new BoardListHandler(boardList));
-    commandMap.put("/board/detail", new BoardDetailHandler(boardList));
     commandMap.put("/board/update", new BoardUpdateHandler(boardList));
     commandMap.put("/board/delete", new BoardDeleteHandler(boardList));
+    commandMap.put("/board/detail", new BoardDetailHandler(boardList));
     commandMap.put("/board/search", new BoardSearchHandler(boardList));
 
     commandMap.put("/member/add", new MemberAddHandler(memberList));
@@ -116,67 +128,57 @@ public class App {
   }
 
   void service() {
-
-    // CSV 형식으로 저장된 게시글 데이터를 파일에서 읽어 객체에 담는다. 
-    try (BufferedReader in = new BufferedReader(
-
-        new FileReader("board.csv", Charset.forName("UTF-8")))) {
-
-      String csvStr = null;
-      while ((csvStr = in.readLine()) != null) {
-
-        // 1) 한 줄의 문자열을 콤마(,)로 분리한다.
-        String[] values = csvStr.split(",");
-
-        // 2) 콤마로 분리한 값을 Board 객체에 담는다.
-        Board b = new Board();
-        b.setNo(Integer.valueOf(values[0]));
-        b.setTitle(values[1]);
-        b.setContent(values[2]);
-        b.setRegisteredDate(Date.valueOf(values[3]));
-        b.setViewCount(Integer.valueOf(values[4]));
-        b.setLike(Integer.valueOf(values[5]));
-
-        // 3) 게시글을 작성한 회원 정보를 Member 객체에 담는다.
-        Member m = new Member();
-        m.setNo(Integer.valueOf(values[6]));
-        m.setName(values[7]);
-
-        // 4) Member 객체를 Board 객체의 작성자 필드에 저장한다.
-        b.setWriter(m);
-
-        // 5) 게시글 객체를 boardList 에 저장한다.
-        boardList.add(b);
-      }
-
-      System.out.println("게시글 데이터 로딩 완료!");
-
-    } catch (Exception e) {
-      System.out.println("게시글 데이터 로딩 오류!");
-    }
+    loadObjects("board.json", boardList, Board.class);
+    loadObjects("member.json", memberList, Member.class);
+    loadObjects("project.json", projectList, Project.class);
 
     createMainMenu().execute();
     Prompt.close();
 
-    // 게시글 데이터를 CSV 형식으로 출력한다.
-    try (PrintWriter out = new PrintWriter(
-        new BufferedWriter(
-            new FileWriter("board.csv", Charset.forName("UTF-8"))));) {
-      for (Board board : boardList) {
-        out.printf("%d,%s,%s,%s,%d,%d,%d,%s\n",
-            board.getNo(),
-            board.getTitle(),
-            board.getContent(),
-            board.getRegisteredDate(),
-            board.getViewCount(),
-            board.getLike(),
-            board.getWriter().getNo(),
-            board.getWriter().getName());
+    saveObjects("board.json", boardList);
+    saveObjects("member.json", memberList);
+    saveObjects("project.json", projectList);
+  }
+
+  private <E> void loadObjects(
+      String filepath,
+      List<E> list,
+      Class<E> domainType) {
+    // CSV 형식으로 저장된 게시글 데이터를 파일에서 읽어 객체에 담는다. 
+    try (BufferedReader in = new BufferedReader(
+        new FileReader(filepath, Charset.forName("UTF-8")))) {
+
+      StringBuilder strBuilder = new StringBuilder();
+      String str;
+      while ((str = in.readLine()) != null) {
+        strBuilder.append(str);
       }
-      System.out.println("게시글 데이터 출력 완료!");
+
+      Type type = TypeToken.getParameterized(Collection.class, domainType).getType();
+      Collection<E> collection = new Gson().fromJson(strBuilder.toString(), type);
+
+      list.addAll(collection);
+
+      System.out.printf("%s 데이터 로딩 완료!\n", filepath);
 
     } catch (Exception e) {
-      System.out.println("게시글 데이터 출력 오류!");
+      System.out.printf("%s 데이터 로딩 오류!\n", filepath);
+    }
+  }
+
+  // 객체를 JSON 형식으로 저장한다.
+  private void saveObjects(String filepath, List<?> list) { // CsvValue로 지정한 이유는 toCsvString 메서드를 호출해야해서
+    try (PrintWriter out = new PrintWriter(
+        new BufferedWriter(
+            new FileWriter(filepath, Charset.forName("UTF-8"))));) {
+
+      out.print(new Gson().toJson(list));
+
+      System.out.printf("%s 데이터 출력 완료!\n", filepath);
+
+    } catch (Exception e) {
+      System.out.printf("%s 데이터 출력 오류!\n", filepath);
+      e.printStackTrace();
     }
   }
 
@@ -202,8 +204,8 @@ public class App {
     boardMenu.add(new MenuItem("등록", ACCESS_GENERAL, "/board/add"));
     boardMenu.add(new MenuItem("목록", "/board/list"));
     boardMenu.add(new MenuItem("상세보기", "/board/detail"));
-    boardMenu.add(new MenuItem("변경", ACCESS_GENERAL, "/board/update"));
-    boardMenu.add(new MenuItem("삭제", ACCESS_GENERAL, "/board/delete"));
+    //    boardMenu.add(new MenuItem("변경", ACCESS_GENERAL, "/board/update"));
+    //    boardMenu.add(new MenuItem("삭제", ACCESS_GENERAL, "/board/delete"));
     boardMenu.add(new MenuItem("검색", "/board/search"));
     return boardMenu;
   }

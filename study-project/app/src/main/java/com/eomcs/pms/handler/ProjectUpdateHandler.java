@@ -16,7 +16,7 @@ public class ProjectUpdateHandler extends AbstractProjectHandler {
   }
 
   @Override
-  public void execute() {
+  public void execute(CommandRequest requset) {
     System.out.println("[프로젝트 변경]");
     int no = Prompt.inputInt("번호? ");
 
