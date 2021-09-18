@@ -11,7 +11,10 @@ public class Exam0322 {
 
     String jsonStr = "[{\"no\":101,\"name\":\"홍길동\"},{\"no\":102,\"name\":\"임꺽정\"},{\"no\":103,\"name\":\"안창호\"}]";
 
+    // Exam0321과 다른 방법으로 Type 객체를 얻기
     Type collectionType = TypeToken.getParameterized(Collection.class, Member.class).getType();
+    // 타입 클래스에서 타입토큰의 getParameterized를 실행한다.
+    // 실행할 때 , Collection의 class와 Member.class를 실행하는데 그 타입을 가져온다.
 
     Collection<Member> list = new Gson().fromJson(jsonStr, collectionType);
 

@@ -19,6 +19,7 @@ public class Exam0320 {
       // 타입 파라미터에 컬렉션 타입을 전달하는 목적 이외에 다른 것이 없다.
       // 따라서 뭔가를 새로 추가할 필요는 없다.
     }
+    //제네릭으로 Collection의 Member 타입을 지정.
 
     // 2) TypeToken 객체 준비 
     MyTypeToken typeToken = new MyTypeToken();
