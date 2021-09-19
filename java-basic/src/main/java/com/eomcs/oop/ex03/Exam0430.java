@@ -11,17 +11,22 @@ public class Exam0430 {
     int sum;
     float average;
 
+    // 기본 생성자
     Score() {
       System.out.println("Score()");
     }
 
+    // 매개변수가 있는 생성자
     Score(String name) {
       System.out.println("Score(String)");
       this.name = name;
     }
 
+    // 매개변수가 있는 생성자
     Score(String name, int kor, int eng, int math) {
       System.out.println("Score(String,int,int,int) 호출!");
+      // 파라미터로 받은 값을 새로 만든 인스턴스 변수에 저장한다.
+      // 새로 만든 인스턴스 변수를 초기화시키는 일을 한다.
       this.name = name;
       this.kor = kor;
       this.eng = eng;
