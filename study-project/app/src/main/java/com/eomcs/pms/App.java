@@ -3,18 +3,11 @@ package com.eomcs.pms;
 import static com.eomcs.menu.Menu.ACCESS_ADMIN;
 import static com.eomcs.menu.Menu.ACCESS_GENERAL;
 import static com.eomcs.menu.Menu.ACCESS_LOGOUT;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.lang.reflect.Type;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import com.eomcs.context.ApplicationContextListener;
 import com.eomcs.menu.Menu;
 import com.eomcs.menu.MenuGroup;
 import com.eomcs.pms.domain.Board;
@@ -48,9 +41,9 @@ import com.eomcs.pms.handler.TaskDeleteHandler;
 import com.eomcs.pms.handler.TaskDetailHandler;
 import com.eomcs.pms.handler.TaskListHandler;
 import com.eomcs.pms.handler.TaskUpdateHandler;
+import com.eomcs.pms.listener.AppInitListener;
+import com.eomcs.pms.listener.FileListener;
 import com.eomcs.util.Prompt;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 
 public class App {
@@ -64,6 +57,20 @@ public class App {
 
   MemberPrompt memberPrompt = new MemberPrompt(memberList);
   ProjectPrompt projectPrompt = new ProjectPrompt(projectList);
+
+  // 옵저버 관련 필드와 메서드
+  // => 옵저버 목록
+  List<ApplicationContextListener> listener = new ArrayList<>();
+
+  // => 옵저버를 등록하는 메서드
+  public void addApplicationContextListener(ApplicationContextListener listener) {
+    this.listener.add(listener);
+  }
+
+  // => 옵저버를 제거하는 메서드
+  public void removeApplicationConextListener(ApplicationContextListener listener) {
+    this.listener.add(listener);
+  }
 
   class MenuItem extends Menu {
     String menuId;
@@ -92,6 +99,13 @@ public class App {
 
   public static void main(String[] args) {
     App app = new App(); 
+
+    // 애플리케이션을 본격적으로 실행하기 전에 옵저버를 등록
+    // => 이렇게 등록된 옵저버는 service()가 호출된 후 / 종료되기 전에 보고 그 상태를 받을 것이다.
+    // => 옵저버의 기능을 제거하고 싶다면, 언제든 등록하지 않으면 된다.
+    //    즉, 기능을 추가하거나 빼기 쉽다.
+    app.addApplicationContextListener(new AppInitListener());
+    app.addApplicationContextListener(new FileListener());
     app.service();
   }
 
@@ -127,62 +141,43 @@ public class App {
     commandMap.put("/auth/userinfo", new AuthUserInfoHandler());
   }
 
+  private void notifyOnApplicationStarted() {
+    HashMap<String,Object> parmas = new HashMap<>();
+    parmas.put("boardList", boardList);// boardList이름으로 list객체가 있다.
+    parmas.put("memberList", memberList);
+    parmas.put("projectList", projectList);
+
+    // 애플리케이션을 시작할 때 등록된 옵저버에게 알린다.
+    for (ApplicationContextListener listener : listener) {
+      listener.contextInitialized(parmas);
+    }
+  }
+
+  private void notifyOnApplicationEnded() {
+    HashMap<String,Object> parmas = new HashMap<>();
+    parmas.put("boardList", boardList);
+    parmas.put("memberList", memberList);
+    parmas.put("projectList", projectList);
+    // 애플리케이션을 종료할 때 등록된 옵저버에게 알린다.
+    for (ApplicationContextListener listener : listener) {
+      listener.contextDestroyed(parmas);
+    }
+  }
+
   void service() {
-    loadObjects("board.json", boardList, Board.class);
-    loadObjects("member.json", memberList, Member.class);
-    loadObjects("project.json", projectList, Project.class);
+
+    notifyOnApplicationStarted();
 
     createMainMenu().execute();
     Prompt.close();
 
-    saveObjects("board.json", boardList);
-    saveObjects("member.json", memberList);
-    saveObjects("project.json", projectList);
+    notifyOnApplicationEnded();
+
   }
 
-  private <E> void loadObjects(
-      String filepath,
-      List<E> list,
-      Class<E> domainType) {
-    // CSV 형식으로 저장된 게시글 데이터를 파일에서 읽어 객체에 담는다. 
-    try (BufferedReader in = new BufferedReader(
-        new FileReader(filepath, Charset.forName("UTF-8")))) {
-
-      StringBuilder strBuilder = new StringBuilder();
-      String str;
-      while ((str = in.readLine()) != null) {
-        strBuilder.append(str);
-      }
-
-      Type type = TypeToken.getParameterized(Collection.class, domainType).getType();
-      Collection<E> collection = new Gson().fromJson(strBuilder.toString(), type);
-
-      list.addAll(collection);
-
-      System.out.printf("%s 데이터 로딩 완료!\n", filepath);
-
-    } catch (Exception e) {
-      System.out.printf("%s 데이터 로딩 오류!\n", filepath);
-    }
-  }
-
-  // 객체를 JSON 형식으로 저장한다.
-  private void saveObjects(String filepath, List<?> list) { // CsvValue로 지정한 이유는 toCsvString 메서드를 호출해야해서
-    try (PrintWriter out = new PrintWriter(
-        new BufferedWriter(
-            new FileWriter(filepath, Charset.forName("UTF-8"))));) {
-
-      out.print(new Gson().toJson(list));
-
-      System.out.printf("%s 데이터 출력 완료!\n", filepath);
-
-    } catch (Exception e) {
-      System.out.printf("%s 데이터 출력 오류!\n", filepath);
-      e.printStackTrace();
-    }
-  }
 
   Menu createMainMenu() {
+
     MenuGroup mainMenuGroup = new MenuGroup("메인");
     mainMenuGroup.setPrevMenuTitle("종료");
 
