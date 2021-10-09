@@ -1,57 +1,3 @@
-create table test1(
-    no int,
-    name varchar(50)
-);
-
-insert into test1(no,name) values(1, 'aaa');
-
-select * from test1;
-
-#### not null
-데이터를 입력하지 않으면 입력/변경 거절!
-> create table test1(
-    no int not null,
-    name varchar(20)
-  );
-
-데이터 입력 테스트:
-> insert into test1(no, name) values(1, 'aaa');
-> insert into test1(no, name) values(null, 'bbb'); /* 실행 오류 */
-> insert into test1(no, name) values(3, null);
-
-#### 기본값 지정하기
-입력할 때 컬럼을 생략하면 지정된 기본값이 대신 입력된다.
-> create table test1(
-    no int not null,
-    name varchar(20) default 'noname',
-    age int default 20
-  );
-
-> insert into test1(no, name, age) values(1, 'aaa', 30);
-
-컬럼의 값을 null을 지정하면 default 값이 사용되지 않는다.
-> insert into test1(no, name, age) values(2, null, null);
-
-create table test1(
-  CUST_ID varchar(200) not null,
-  CUST_NM varchar(200) not null,
-  CUST_BIRTH datetime not null,
-  VIST_CNT int,
-  SALSE_AMT int,
-  SALSE_CNT int
-  );
-
-  insert into test1(CUST_ID, CUST_NM, CUST_BIRTH, VIST_CNT, SALSE_AMT, SALSE_CNT) values('56456','모형건','1982-01-24',123,3700000,24);
-  insert into test1(CUST_ID, CUST_NM, CUST_BIRTH, VIST_CNT, SALSE_AMT, SALSE_CNT) values('65412','이상훈','1984-05-10',23,467200,14);
-  insert into test1(CUST_ID, CUST_NM, CUST_BIRTH, VIST_CNT, SALSE_AMT, SALSE_CNT) values('23472','이상희','1978-02-27',117,2237065,23);
-  insert into test1(CUST_ID, CUST_NM, CUST_BIRTH, VIST_CNT, SALSE_AMT, SALSE_CNT) values('27896','모영길','1982-05-11',37,123721,2);
-  insert into test1(CUST_ID, CUST_NM, CUST_BIRTH, VIST_CNT, SALSE_AMT, SALSE_CNT) values('35478','강주혁','1983-09-10',86,830000,30);
-  insert into test1(CUST_ID, CUST_NM, CUST_BIRTH, VIST_CNT, SALSE_AMT, SALSE_CNT) values('78693','이선우','1977-07-07',103,1789023,7);
-
-  select CUST_ID,CUST_BIRTH,VIST_CNT from test1 order by CUST_BIRTH asc;
-  select CUST_ID,VIST_CNT,SALSE_AMT from test1 order by VIST_CNT desc;
-
-
 ### 1. 실습 - 테이블 생성, 여러개 column 생성하기
 
   MariaDB [studydb]> create table test1(
@@ -66,14 +12,6 @@ Query OK, 0 rows affected (0.133 sec)
 
 MariaDB [studydb]> insert into test1(CUST_ID, CUST_NM, CUST_BIRTH, VIST_CNT, SALSE_AMT, SALSE_CNT) values('56456','모형건','1982-01-24',123,3700000,24);
 Query OK, 1 row affected (0.009 sec)
-
-MariaDB [studydb]> select * from test1;
-+---------+-----------+---------------------+----------+-----------+-----------+
-| CUST_ID | CUST_NM   | CUST_BIRTH          | VIST_CNT | SALSE_AMT | SALSE_CNT |
-+---------+-----------+---------------------+----------+-----------+-----------+
-| 56456   | 모형건    | 1982-01-24 00:00:00 |      123 |   3700000 |        24 |
-+---------+-----------+---------------------+----------+-----------+-----------+
-1 row in set (0.000 sec)
 
 MariaDB [studydb]> insert into test1(CUST_ID, CUST_NM, CUST_BIRTH, VIST_CNT, SALSE_AMT, SALSE_CNT) values('65412','이상훈','1984-05-10',23,467200,14);
 Query OK, 1 row affected (0.001 sec)
