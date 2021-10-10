@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandRequest {
-  // 커맨드 객체를 실행할 때 전달할 값을 담을 용도
 
+  // 커맨드 객체를 실행할 때 전달할 값을 담을 용도
   Map<String,Object> paramMap = new HashMap<>();
 
   Map<String, Command> commandMap;
@@ -17,6 +17,7 @@ public class CommandRequest {
   public void setAttribute(String name, Object value) {
     paramMap.put(name, value);
   }
+
   public Object getAttribute(String name) {
     return paramMap.get(name);
   }

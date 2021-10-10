@@ -13,6 +13,7 @@ public class BoardUpdateHandler extends AbstractBoardHandler {
   @Override
   public void execute(CommandRequest request) {
     System.out.println("[게시글 변경]");
+    // CommandReuest 파라미터에서 게시글 번호를 꺼낸다.
     int no = (int)request.getAttribute("no");
 
     Board board = findByNo(no);
