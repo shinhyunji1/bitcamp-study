@@ -29,12 +29,15 @@ public class RequestAgent {
   }
 
   public void request(String command, Object value) throws Exception {
+    // 서버쪽으로 데이터를 보낸다.
+    // - 서버에 명령어를 한 줄 보낸다.
     try (Socket socket = new Socket(ip, port);  
         PrintWriter out = new PrintWriter(socket.getOutputStream());
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
       out.println(command);
 
+      // - 객체를 JSON으로 변환하여 서버에 보낸다.
       if (value != null) {
         out.println(new Gson().toJson(value));
       } else {

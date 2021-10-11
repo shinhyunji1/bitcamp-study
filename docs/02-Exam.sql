@@ -1,4 +1,4 @@
-### 1. 실습 - 테이블 생성, 여러개 column 생성하기
+### 2. 실습 - 테이블 생성, 여러개 column 생성하기
 
   MariaDB [studydb]> create table test1(
     ->   CUST_ID varchar(200) not null,
