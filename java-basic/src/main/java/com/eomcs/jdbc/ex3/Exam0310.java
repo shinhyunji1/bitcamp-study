@@ -37,6 +37,7 @@ public class Exam0310 {
         // => 데이터 타입에 상관없이 ?를 넣는다.
         PreparedStatement stmt =
             con.prepareStatement("insert into x_board(title,contents) values(?,?)");) {
+      // '?'는 아니다. 이렇게 되면 이 자체의 문자열이 된다.
 
       // in-parameter에 값을 설정한다.
       // => 설정하는 순서는 상관없다. 하지만 유지보수를 위해 순서대로 나열하라!

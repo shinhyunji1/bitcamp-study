@@ -3,10 +3,10 @@ package com.eomcs.jdbc.ex3;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.Scanner;
 
-public class Exam0110 {
+public class Exam0210 {
 
   public static void main(String[] args) throws Exception {
     String title = null;
@@ -22,7 +22,7 @@ public class Exam0110 {
 
     try (Connection con = DriverManager.getConnection( //
         "jdbc:mysql://localhost:3306/studydb?user=study&password=1111");
-        Statement stmt = con.createStatement()) {
+        PreparedStatement stmt = con.prepareStatement("insert into x_board(title, contents) values(?,?)")) {
 
       // SQL 삽입 공격
       // => 입력 문자열에 SQL 명령을 삽입하여 프로그램의 의도와 다르게 데이터를 조작하는 행위.
@@ -31,8 +31,19 @@ public class Exam0110 {
       // 제목? aaaa
       // 내용? bbbb'), ('haha', 'hoho'), ('hehe', 'puhul
       //
-      int count = stmt.executeUpdate( 
-          "insert into x_board(title, contents) values('" + title + "','" + contents + "')");
+
+      // 위에서 준비한 SQL 문에 값을 설정한다.
+      // => ? : 값이 놓일 자리를 의미한다. 'in-parmeter'라 부른다.
+      // => in-parameter에 들어갈 값의 타입에 따라 적절한 setXxx() 에서드를 호출한다.
+      //
+      stmt.setString(1, title);
+      stmt.setString(2, contents);
+
+      // => 이미 SQL을 준비한 상태이기 때문에 실행할 때는 SQL 를 준 필요가 없다.
+      // => 서버에 SQL 을 전달할 때는 sQL과 값을 분리해서 보내고,
+      //    서버에서 분리된 값을 따로 처리할 것이기 때문에
+      //    SQL 삽입 공격이 불가능하다.
+      int count = stmt.executeUpdate();
       // 위에서 사용자가 입력한 값을 가지고 SQL 문장을 만들면 다음과 같다.
       //
       // insert into x_board(title, contents) values('aaaa','bbbb'), ('haha', 'hoho'), ('hehe', 'puhul')
@@ -41,3 +52,4 @@ public class Exam0110 {
     }
   }
 }
+
