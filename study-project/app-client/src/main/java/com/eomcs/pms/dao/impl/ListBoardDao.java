@@ -6,7 +6,8 @@ import com.eomcs.pms.dao.BoardDao;
 import com.eomcs.pms.domain.Board;
 
 // 역할
-// - 게시글을 데이터를 컬렉션 객체를 이용하여 관리한다.
+// - 게시글 데이터를 컬렉션 객체를 이용하여 관리한다.
+//
 public class ListBoardDao implements BoardDao {
   List<Board> list = new ArrayList<>();
 
@@ -20,13 +21,12 @@ public class ListBoardDao implements BoardDao {
     return list;
   }
 
-
   @Override
   public List<Board> findByKeyword(String keyword) throws Exception {
     ArrayList<Board> result = new ArrayList<>();
     for (Board b : list) {
       if (b.getTitle().equalsIgnoreCase(keyword) ||
-          b.getContent().equalsIgnoreCase(keyword)||
+          b.getContent().equalsIgnoreCase(keyword) ||
           b.getWriter().getName().equalsIgnoreCase(keyword)) {
         result.add(b);
       }
@@ -63,5 +63,7 @@ public class ListBoardDao implements BoardDao {
       }
     }
   }
-
 }
+
+
+

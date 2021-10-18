@@ -1,5 +1,7 @@
 package com.eomcs.pms.dao.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,18 +10,22 @@ import com.eomcs.pms.domain.Board;
 import com.eomcs.request.RequestAgent;
 
 // 역할
-// - 게시글을 데이터를 서버를 통해 관리한다.
+// - 게시글을 DBMS 서버를 통해 관리한다.
 //
-public class NetBoardDao implements BoardDao {
+public class MariadbBoardDao implements BoardDao {
 
-  RequestAgent requestAgent;
+  // 커넥션 객체가 필요함
+  Connection con;
 
-  public NetBoardDao(RequestAgent requestAgent) {
-    this.requestAgent = requestAgent;
+  public MariadbBoardDao(Connection con) {
+    this.con = con;
   }
 
   @Override
   public void insert(Board board) throws Exception {
+    try(PreparedStatement stmt = con.prepareStatement("")) { // 커넥션은 닫을 필요없음
+
+    }
     requestAgent.request("board.insert", board);
     if (requestAgent.getStatus().equals(RequestAgent.FAIL)) {
       throw new Exception("게시글 데이터 저장 실패!");
