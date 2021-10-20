@@ -14,7 +14,7 @@ public class Exam0130 {
         "com/eomcs/mybatis/ex03/a/mybatis-config.xml")).openSession();
 
     // XML 파서가 혼동을 일으킬 수 있는(XML 파싱 오류 발생) 문자를 사용할 때 
-    // - 그 문자 대신 XML Entity를 사용하라.
+    // 그 문자 대신 XML Entity를 사용하라.
     //   " => &quot;
     //   ' => &apos;
     //   & => &amp;
