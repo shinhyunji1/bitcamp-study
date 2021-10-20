@@ -24,7 +24,7 @@ public class MariadbProjectDao implements ProjectDao {
 
   @Override
   public void insert(Project project) throws Exception {
-    try(PreparedStatement stmt = con.prepareStatement(
+    try (PreparedStatement stmt = con.prepareStatement(
         "insert into pms_project(title,content,start_dt,end_dt,member_no) values(?,?,?,?,?)",
         Statement.RETURN_GENERATED_KEYS)) {
 
@@ -37,19 +37,19 @@ public class MariadbProjectDao implements ProjectDao {
       if (stmt.executeUpdate() == 0) {
         throw new Exception("프로젝트 데이터 입력 실패!");
       }
-      // 입력된 프로젝트의 PK 값 꺼내기
 
+      // 입력된 프로젝트의 PK 값 꺼내기
       int projectNo = 0;
-      try(ResultSet pkRS = stmt.getGeneratedKeys()){
+      try (ResultSet pkRS = stmt.getGeneratedKeys()) {
         if (pkRS.next()) {
           projectNo = pkRS.getInt("project_no");
         }
       }
 
       // 프로젝트의 멤버를 입력하기
-      try(PreparedStatement stmt2 = con.prepareStatement(
+      try (PreparedStatement stmt2 = con.prepareStatement(
           "insert into pms_project_member(project_no,member_no) values(?,?)")) {
-        for (Member member : project.getMembers()) { // 반복문을 돌면서
+        for (Member member : project.getMembers()) {
           stmt2.setInt(1, projectNo);
           stmt2.setInt(2, member.getNo());
           stmt2.executeUpdate();
@@ -58,10 +58,10 @@ public class MariadbProjectDao implements ProjectDao {
     }
   }
 
-  // 방법 1: 프로젝트 목록을 가져올 때 멤버 목록도 함께 가져오기
+  // 방법1: 프로젝트 목록을 가져올 때 멤버 목록도 함께 가져오기
   @Override
   public List<Project> findAll() throws Exception {
-    try(PreparedStatement stmt = con.prepareStatement(
+    try (PreparedStatement stmt = con.prepareStatement(
         "select"
             + " p.project_no,"
             + " p.title,"
@@ -80,15 +80,14 @@ public class MariadbProjectDao implements ProjectDao {
             + " inner join pms_member m2 on pm.member_no=m2.member_no"
             + " order by" 
             + " project_no desc, m2.name asc");
-        ResultSet rs = stmt.executeQuery()){
-
+        ResultSet rs = stmt.executeQuery()) {
 
       ArrayList<Project> list = new ArrayList<>();
 
       int projectNo = 0;
       Project project = null;
 
-      while(rs.next()) {
+      while (rs.next()) {
         if (projectNo != rs.getInt("project_no")) {
           project = new Project();
           project.setNo(rs.getInt("project_no"));
@@ -96,10 +95,9 @@ public class MariadbProjectDao implements ProjectDao {
           project.setStartDate(rs.getDate("start_dt"));
           project.setEndDate(rs.getDate("end_dt"));
 
-          // 조인
           Member owner = new Member();
           owner.setNo(rs.getInt("owner_no"));
-          owner.setName(rs.getNString("owner_name"));
+          owner.setName(rs.getString("owner_name"));
           owner.setEmail(rs.getString("owner_email"));
 
           project.setOwner(owner);
@@ -110,15 +108,14 @@ public class MariadbProjectDao implements ProjectDao {
 
         // 프로젝트의 멤버가 있다면 기존 멤버 목록에 추가한다.
         if (rs.getString("member_name") != null) {
-
           Member member = new Member();
           member.setNo(rs.getInt("member_no"));
           member.setName(rs.getString("member_name"));
           member.setEmail(rs.getString("member_email"));
-
           project.getMembers().add(member);
         }
       }
+
       return list;
     }
   }
@@ -191,7 +188,7 @@ public class MariadbProjectDao implements ProjectDao {
 
   @Override
   public Project findByNo(int no) throws Exception {
-    try(PreparedStatement stmt = con.prepareStatement(
+    try (PreparedStatement stmt = con.prepareStatement(
         "select"
             + " p.project_no,"
             + " p.title,"
@@ -211,7 +208,7 @@ public class MariadbProjectDao implements ProjectDao {
             + " inner join pms_member m2 on pm.member_no=m2.member_no"
             + " where p.project_no=" + no
             + " order by m2.name asc");
-        ResultSet rs = stmt.executeQuery()){
+        ResultSet rs = stmt.executeQuery()) {
 
       Project project = null;
 
@@ -241,13 +238,14 @@ public class MariadbProjectDao implements ProjectDao {
           project.getMembers().add(member);
         }
       }
+
       return project;
     }
   }
 
   @Override
   public void update(Project project) throws Exception {
-    try(PreparedStatement stmt = con.prepareStatement(
+    try (PreparedStatement stmt = con.prepareStatement(
         "update pms_project set"
             + " title=?,"
             + " content=?,"
@@ -267,16 +265,16 @@ public class MariadbProjectDao implements ProjectDao {
 
       // 프로젝트 멤버 변경
       // => 기존 멤버 모두 제거
-      try(PreparedStatement stmt2 = con.prepareStatement(
+      try (PreparedStatement stmt2 = con.prepareStatement(
           "delete from pms_project_member where project_no=?")) {
         stmt2.setInt(1, project.getNo());
         stmt2.executeUpdate();
       }
 
-      // 프로젝트 새멤버를 입력하기
-      try(PreparedStatement stmt2 = con.prepareStatement(
+      // => 프로젝트 새 멤버 입력
+      try (PreparedStatement stmt2 = con.prepareStatement(
           "insert into pms_project_member(project_no,member_no) values(?,?)")) {
-        for (Member member : project.getMembers()) { // 반복문을 돌면서
+        for (Member member : project.getMembers()) {
           stmt2.setInt(1, project.getNo());
           stmt2.setInt(2, member.getNo());
           stmt2.executeUpdate();
@@ -287,14 +285,16 @@ public class MariadbProjectDao implements ProjectDao {
 
   @Override
   public void delete(int no) throws Exception {
-    try(PreparedStatement stmt = con.prepareStatement(
+    try (PreparedStatement stmt = con.prepareStatement(
         "delete from pms_project where project_no=?");
         PreparedStatement stmt2 = con.prepareStatement(
             "delete from pms_project_member where project_no=?")) {
 
+      // 프로젝트 멤버를 먼제 삭제한다.
       stmt2.setInt(1, no);
       stmt2.executeUpdate();
 
+      // 프로젝트를 삭제한다.
       stmt.setInt(1, no);
       if (stmt.executeUpdate() == 0) {
         throw new Exception("프로젝트 데이터 삭제 실패!");
@@ -304,14 +304,17 @@ public class MariadbProjectDao implements ProjectDao {
 
   @Override
   public void insertTask(Task task) throws Exception {
+
   }
 
   @Override
   public void deleteTask(int projectNo, int taskNo) throws Exception {
+
   }
 
   @Override
   public void updateTask(Task task) throws Exception {
+
   }
 
 }
