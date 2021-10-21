@@ -43,11 +43,11 @@ public class MybatisMemberDao implements MemberDao {
     } else {
       return null;
     }
+
   }
 
   @Override
   public Member findByEmailAndPassword(String email, String password) throws Exception {
-    //여러개의 파라미터를 넘길 경우
     HashMap<String,Object> params = new HashMap<>();
     params.put("email", email);
     params.put("password", password);
@@ -64,9 +64,8 @@ public class MybatisMemberDao implements MemberDao {
 
   @Override
   public void delete(int no) throws Exception {
-    sqlSession.delete("MemberMapper.delete", no); // 이 번호로 실행한다.
+    sqlSession.delete("MemberMapper.delete", no);
     sqlSession.commit();
-
   }
 }
 
