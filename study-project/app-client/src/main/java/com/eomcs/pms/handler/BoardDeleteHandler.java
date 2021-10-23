@@ -1,5 +1,6 @@
 package com.eomcs.pms.handler;
 
+import org.apache.ibatis.session.SqlSession;
 import com.eomcs.pms.dao.BoardDao;
 import com.eomcs.pms.domain.Board;
 import com.eomcs.util.Prompt;
@@ -7,11 +8,12 @@ import com.eomcs.util.Prompt;
 public class BoardDeleteHandler implements Command {
 
   BoardDao boardDao;
+  SqlSession sqlSession;
 
-  public BoardDeleteHandler(BoardDao boardDao) {
+  public BoardDeleteHandler(BoardDao boardDao, SqlSession sqlSession) {
     this.boardDao = boardDao;
+    this.sqlSession = sqlSession;
   }
-
   @Override
   public void execute(CommandRequest request) throws Exception {
     System.out.println("[게시글 삭제]");
@@ -36,6 +38,7 @@ public class BoardDeleteHandler implements Command {
     }
 
     boardDao.delete(no);
+    sqlSession.commit();
 
     System.out.println("게시글을 삭제하였습니다.");
   }
