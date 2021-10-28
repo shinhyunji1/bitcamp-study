@@ -62,7 +62,7 @@ public class MemberListHandler extends GenericServlet {
             + " <td>%s</td>"
             + " <td>%s</td>"
             + " <td>%s</td>"
-            + "</tr>", 
+            + "</tr>\n", 
             member.getNo(), 
             member.getName(), 
             member.getEmail(), 

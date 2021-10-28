@@ -59,11 +59,16 @@ public class MemberAddHandler extends HttpServlet {
       out.println("<a href='list'>[목록]</a><br>");
 
     } catch (Exception e) {
+      out.println("목록 조회 오류!");
       throw new ServletException(e);
     }
 
     out.println("</body>");
     out.println("</html>");
+
+    // 웹
+    // 1초가
+    response.setHeader("Refresh", "1;url=list");
   }
 }
 
