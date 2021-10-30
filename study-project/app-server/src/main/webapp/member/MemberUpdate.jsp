@@ -4,17 +4,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true" %>
-<%
-Member member = new Member();
+<% 
+int no = Integer.parseInt(request.getParameter("no"));
 
-member.setName(request.getParameter("name"));
-member.setEmail(request.getParameter("email"));
-member.setPassword(request.getParameter("password"));
-member.setPhoto(request.getParameter("photo"));
-member.setTel(request.getParameter("tel"));
+Member member = memberDao.findByNo(no);
 
-memberDao.insert(member);
-sqlSession.commit();
+if (member == null) {
+  throw new Exception("해당 번호의 회원이 없습니다.");
+} else {
+  member.setName(request.getParameter("name"));
+  member.setEmail(request.getParameter("email"));
+  member.setPassword(request.getParameter("password"));
+  member.setPhoto(request.getParameter("photo"));
+  member.setTel(request.getParameter("tel"));
+
+  memberDao.update(member);
+  sqlSession.commit();
+}
 response.sendRedirect("MemberList.jsp");
 %>
 <%! // <== declaration element(tag)
