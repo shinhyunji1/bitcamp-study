@@ -25,20 +25,26 @@ repositories {
 
 dependencies {
     // 서블릿 API
-    implementation 'javax.servlet:javax.servlet-api:4.0.1'
-    
+    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
     
     // JSP API
-    implementation 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.3'
+    providedCompile 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.3'
+    
     // google json 라이브러리
     implementation 'com.google.code.gson:gson:2.8.8'
-   
+    
+    // JSTL 구현체
+    implementation 'javax.servlet.jstl:1.2'
+    
+    // Mybatis 퍼시스턴스 프레임워크
     implementation 'org.mybatis:mybatis:3.5.7'
+    
     // MariaDB JSON 라이브러리
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
+    
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.2'
-
+    
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.1-jre'
     
