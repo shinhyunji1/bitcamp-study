@@ -15,4 +15,3 @@ public interface MemberDao {
   void update(Member member) throws Exception;
   void delete(int no) throws Exception;
 }
-

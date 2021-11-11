@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 //
 //@WebServlet(
 //    value = "/ex06/s3",
-//    //loadOnStartup = 1,
+//    loadOnStartup = 1,
 //    initParams = {
 //        @WebInitParam(name = "jdbc.driver", value = "org.mariadb.jdbc.Driver"),
 //        @WebInitParam(name = "jdbc.url", value = "jdbc:mariadb://localhost/studydb"),

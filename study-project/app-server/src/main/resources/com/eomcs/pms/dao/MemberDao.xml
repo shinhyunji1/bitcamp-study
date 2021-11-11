@@ -74,8 +74,7 @@
     from 
       pms_member
     where 
-    email=#{email} and password=password(#{password})
-      <!-- email=#{param1} and password=password(#{param2}) -->
+      email=#{email} and password=password(#{password})
   </select>
   
   <select id="findByName" resultMap="MemberMap" parameterType="string">

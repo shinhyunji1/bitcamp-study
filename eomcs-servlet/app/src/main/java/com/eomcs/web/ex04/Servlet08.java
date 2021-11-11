@@ -117,6 +117,7 @@ public class Servlet08 extends GenericServlet {
     out.printf("<img src='../upload/%s_80x80.jpg'><br>\n", filename);
     out.printf("<img src='../upload/%s' height='80'><br>\n", filename);
     out.printf("<img src='../upload/%s_160x160.jpg'><br>\n", filename);
+    out.printf("<img src='../upload/%s_160x160.jpg'><br>\n", filename);
     out.printf("<img src='../upload/%s'><br>\n", filename);
     out.println("</body></html>");
   }
