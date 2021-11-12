@@ -7,15 +7,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/auth/logout")
-public class AuthLogoutHandler extends HttpServlet {
+
+@WebServlet("/home")
+public class HomeController extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    request.getSession().invalidate();
-    response.sendRedirect("loginForm");
+    request.setAttribute("pageTitle", "메인화면");
+    request.setAttribute("contentUrl", "/home.jsp");
+    request.getRequestDispatcher("/template1.jsp").forward(request, response);
   }
 }
 

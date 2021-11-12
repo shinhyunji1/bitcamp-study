@@ -15,8 +15,9 @@ public class MemberFormController extends HttpServlet {
   @Override
   protected void service(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    // 출력을 담당할 뷰를 호출한다.
-    request.getRequestDispatcher("/member/MemberForm.jsp").forward(request, response);
+    request.setAttribute("pageTitle", "새회원");
+    request.setAttribute("contentUrl", "/member/MemberForm.jsp");
+    request.getRequestDispatcher("/template1.jsp").forward(request, response);
   }
 }
 
