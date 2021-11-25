@@ -29,6 +29,7 @@ public class Controller04_6 {
     out.printf("Accept=%s\n", accept);
     out.printf("User-Agent=%s\n", userAgent);
 
+    // 0개 이상의 어떤 문자
     if (userAgent.matches(".*Edg.*")) {
       out.println("Edge");
     } else if (userAgent.matches(".*Chrome.*")) {
