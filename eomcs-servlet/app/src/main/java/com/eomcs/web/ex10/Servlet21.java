@@ -43,7 +43,7 @@ public class Servlet21 extends HttpServlet {
     //
     // 사용 범위를 지정하지 않은 쿠키
     // => 쿠키를 발급한 서블릿과 같은 경로이거나 하위 경로의 서블릿을 요청할 때만
-    // 웹 브라우저가 서버에 쿠키를 보낸다.
+    //    웹 브라우저가 서버에 쿠키를 보낸다.
     // => 기본: /web/ex10
     Cookie c1 = new Cookie("v1", "aaa");
 

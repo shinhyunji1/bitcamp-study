@@ -37,6 +37,7 @@ public class Servlet02 extends GenericServlet {
     // => 다음 코드의 주석을 풀고 테스트 해보라!
     //    정상적으로 잘 출력될 것이다.
     req.setCharacterEncoding("UTF-8");
+
     // => 원리
     //    getParameter()를 최초로 호출하기 전에 먼저
     //    클라이언트 보낸 데이터의 인코딩 형식이 어떤 문자표로 되어 있는지 알려줘야 한다.
@@ -56,14 +57,14 @@ public class Servlet02 extends GenericServlet {
 
     char[] chars = name.toCharArray();
     for (char c : chars) {
-      out.printf("%x\n", (int) c);
+      out.printf("%04x\n", (int) c);
     }
   }
 }
 
 // HTTP 요청 형식
 // method sp request-URI sp http_version CRLF
-// *(general header | request header | entity header) CRLF
+// *((general header | request header | entity header) CRLF)
 // CRLF
 // message-body
 //
@@ -167,6 +168,13 @@ public class Servlet02 extends GenericServlet {
 //         => AB가각
 //
 // GET 요청 vs POST 요청
+// 0) 데이터 전송 방식
+// => GET
+//    - request uri(URL 주소)에 데이터를 포함한다.
+//      예) /java-web/ex04/s1?name=AB%EA%B0%80%EA%B0%81&age=20
+// => POST
+//    - message body에 데이터를 포함한다.
+//      예) name=AB%EA%B0%80%EA%B0%81&age=20
 // 1) 전송 데이터 용량
 // => GET
 //    - 대부분의 웹서버가 request-line과 헤더의 크기를 8KB로 제한하고 있다.

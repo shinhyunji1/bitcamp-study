@@ -1,16 +1,14 @@
-// 서블릿 배치: 2) 애노테이션으로 배치 정보를 등록
+// 서블릿 배치: 3) 객체를 직접 생성하여 등록 : 웹 애플리케이션을 시작할 때
 package com.eomcs.web.ex12;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/ex12/s02")
-public class Servlet02 extends HttpServlet {
+public class Servlet03 extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   @Override

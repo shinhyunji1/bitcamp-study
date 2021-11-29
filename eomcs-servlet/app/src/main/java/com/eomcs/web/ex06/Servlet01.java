@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 // 클라이언트가 실행을 요청하지 않아도 서블릿을 미리 생성하고 싶다면,
 // loadOnStartup 프로퍼티 값을 지정하라.
-// loadOnStartup=실행순서
+//     loadOnStartup=실행순서
 // 미리 생성할 서블릿이 여러 개 있다면, loadOnStartup에 지정한 순서대로 생성한다.
 // 언제 서블릿을 미리 생성하는가?
 // => 서블릿이 작업할 때 사용할 자원을 준비하는데 시간이 오래 걸리는 경우

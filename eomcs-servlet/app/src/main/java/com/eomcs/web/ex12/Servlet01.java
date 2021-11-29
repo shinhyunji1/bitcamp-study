@@ -1,4 +1,4 @@
-// 서블릿 배치: 1) web.xml에 배치 정보를 등록
+// 서블릿 배치: 1) web.xml 에 배치 정보를 등록
 package com.eomcs.web.ex12;
 
 import java.io.IOException;
@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class Servlet01 extends HttpServlet {
-
   private static final long serialVersionUID = 1L;
 
   @Override
@@ -20,5 +19,4 @@ public class Servlet01 extends HttpServlet {
     PrintWriter out = resp.getWriter();
     out.println("안녕하세요!");
   }
-
 }

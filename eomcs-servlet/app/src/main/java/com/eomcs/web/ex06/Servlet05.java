@@ -14,6 +14,7 @@ public class Servlet05 extends HttpServlet {
 
   @Override
   public void init() {
+
     // 컨텍스트 초기화 파라미터 값을 꺼내려면 ServletContext 객체가 있어야 한다.
     // => 웹 애플리케이션 당 ServletContext 객체는 한 개이다.
     // => 따라서 다음 코드 모두 같은 객체를 리턴한다.

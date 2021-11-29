@@ -86,7 +86,6 @@ public class Servlet03 extends HttpServlet {
     String username = config.getInitParameter("jdbc.username");
     String password = config.getInitParameter("jdbc.password");
 
-
     System.out.println(jdbcDriver);
     System.out.println(jdbcUrl);
     System.out.println(username);
