@@ -1,5 +1,5 @@
 // 요청 핸들러의 아규먼트 - @RequestBody : 클라이언트가 보낸 데이터를 한 덩어리로 받기
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

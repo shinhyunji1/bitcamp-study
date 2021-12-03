@@ -1,5 +1,5 @@
 // 요청 핸들러의 리턴 값 - view URL 리턴하기, 리다이렉트, forward/include
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

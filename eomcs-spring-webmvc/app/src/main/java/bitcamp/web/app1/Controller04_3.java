@@ -1,5 +1,5 @@
 // 요청 핸들러의 아규먼트 - 도메인 객체(값 객체; Value Object)로 요청 파라미터 값 받기
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import java.io.PrintWriter;
 import org.springframework.stereotype.Controller;

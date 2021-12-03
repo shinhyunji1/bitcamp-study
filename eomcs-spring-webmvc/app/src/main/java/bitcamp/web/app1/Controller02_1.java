@@ -1,5 +1,5 @@
 // GET, POST 구분하기
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

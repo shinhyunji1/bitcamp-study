@@ -1,5 +1,5 @@
 // 요청 핸들러의 아규먼트 - 프로퍼티 에디터 사용하기
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import java.beans.PropertyEditorSupport;
 import java.io.PrintWriter;
@@ -98,17 +98,16 @@ public class Controller04_4 {
         );
 
 
-    //
     // WebDataBinder에 프로퍼티 에디터 등록하기
-    //    binder.registerCustomEditor(
-    //        Car.class, // String을 Car 타입으로 바꾸는 에디터임을 지정한다.
-    //        new CarPropertyEditor() // 바꿔주는 일을 하는 프로퍼티 에디터를 등록한다.
-    //        );
+    binder.registerCustomEditor(
+        Car.class, // String을 Car 타입으로 바꾸는 에디터임을 지정한다.
+        new CarPropertyEditor() // 바꿔주는 일을 하는 프로퍼티 에디터를 등록한다.
+        );
 
     // WebDataBinder에 프로퍼티 에디터 등록하기
-    //    binder.registerCustomEditor(Engine.class, // String을 Engine 타입으로 바꾸는 에디터임을 지정한다.
-    //        new EnginePropertyEditor() // 바꿔주는 일을 하는 프로퍼티 에디터를 등록한다.
-    //        );
+    binder.registerCustomEditor(Engine.class, // String을 Engine 타입으로 바꾸는 에디터임을 지정한다.
+        new EnginePropertyEditor() // 바꿔주는 일을 하는 프로퍼티 에디터를 등록한다.
+        );
   }
 
   // PropertyEditor 만들기

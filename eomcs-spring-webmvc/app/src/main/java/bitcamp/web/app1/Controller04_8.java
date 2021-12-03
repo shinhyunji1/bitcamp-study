@@ -1,5 +1,5 @@
 // 요청 핸들러의 아규먼트 - multipart/form-data 형식의 파라미터 값 받기
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -121,15 +121,16 @@ public class Controller04_8 {
     return out0.toString();
   }
 
-  //테스트:
+
+  // 테스트:
   // http://.../html/app1/c04_8.html
   @PostMapping(value = "h4", produces = "text/html;charset=UTF-8")
   @ResponseBody
-  public String handler4(//
-      String name, //
-      int age, //
+  public String handler4(
+      String name,
+      int age,
       // 같은 이름으로 전송된 여러 개의 파일은 배열로 받으면 된다.
-      MultipartFile[] photo //
+      MultipartFile[] photo
       ) throws Exception {
 
     StringWriter out0 = new StringWriter();
@@ -149,7 +150,6 @@ public class Controller04_8 {
 
     return out0.toString();
   }
-
 }
 
 

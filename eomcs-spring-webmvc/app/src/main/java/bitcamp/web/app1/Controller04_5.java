@@ -1,5 +1,5 @@
 // 요청 핸들러의 아규먼트 - 글로벌 프로퍼티 에디터 적용하기
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import java.io.PrintWriter;
 import java.util.Date;

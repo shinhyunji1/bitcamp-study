@@ -1,5 +1,5 @@
 // 요청 핸들러의 아규먼트 - @Cookie
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import java.io.PrintWriter;
 import java.net.URLEncoder;

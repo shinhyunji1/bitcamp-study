@@ -1,4 +1,4 @@
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import java.beans.PropertyEditorSupport;
 import org.springframework.web.bind.WebDataBinder;

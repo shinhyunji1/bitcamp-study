@@ -1,5 +1,5 @@
 // 요청 핸들러의 리턴 값 - 콘텐트를 직접 리턴하기
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpEntity;

@@ -1,4 +1,4 @@
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 public class Engine {
   protected String model;

@@ -1,5 +1,5 @@
 // 요청 핸들러의 아규먼트 - @RequestHeader
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import java.io.PrintWriter;
 import java.util.regex.Matcher;
@@ -29,7 +29,6 @@ public class Controller04_6 {
     out.printf("Accept=%s\n", accept);
     out.printf("User-Agent=%s\n", userAgent);
 
-    // 0개 이상의 어떤 문자
     if (userAgent.matches(".*Edg.*")) {
       out.println("Edge");
     } else if (userAgent.matches(".*Chrome.*")) {

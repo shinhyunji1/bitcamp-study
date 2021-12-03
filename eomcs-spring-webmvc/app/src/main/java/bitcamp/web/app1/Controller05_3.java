@@ -1,5 +1,5 @@
 // 요청 핸들러에서 view 컴포넌트(JSP) 쪽에 데이터 전달하기
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import java.util.Map;
 import javax.servlet.ServletRequest;

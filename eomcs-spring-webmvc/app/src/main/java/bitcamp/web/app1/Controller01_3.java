@@ -1,5 +1,5 @@
 // 페이지 컨트롤러 만드는 방법 - 기본 URL과 상세 URL을 분리하여 설정하기
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

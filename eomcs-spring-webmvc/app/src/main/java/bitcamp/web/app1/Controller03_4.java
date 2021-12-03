@@ -1,5 +1,5 @@
 // request handler를 구분하는 방법 - Content-Type 헤더의 값에 따라 구분하기
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

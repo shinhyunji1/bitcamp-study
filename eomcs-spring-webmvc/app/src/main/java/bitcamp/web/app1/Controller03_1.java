@@ -1,5 +1,5 @@
 // request handler를 구분하는 방법 - 파라미터 이름으로 구분하기
-package bitcamp.web.app1;
+package bitcamp.app1;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
